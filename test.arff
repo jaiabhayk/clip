@@ -1,0 +1,8 @@
+@relation sample_input.libsvm
+
+@attribute att_1 numeric
+@attribute att_2 numeric
+@attribute class numeric
+
+@data
+{1 5, 2 5}
