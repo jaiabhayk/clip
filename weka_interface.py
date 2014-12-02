@@ -8,29 +8,89 @@ import collections
 
 #weka = '/Users/yogarshi/Documents/weka-3-6-11/'
 
-
-def create_arff_file(tweetList, filename):
+def write_to_file(filename, feature_name_dict, modified_tweet_list, total_feats):
     """
-    Create an arff file given a list of tweet objects. Right now, assuming that all tweets have the same features.
+    Function to write the data to arff format
+
+    :param filename:
+    :param feature_name_dict:
+    :param modified_tweet_list:
+    :param total_feats:
+    :return:
+    """
+    f = open(filename, 'w')
+    f.write("@relation tweet_sentiments\n\n")
+
+    feature_name_list = sorted([(feature_name_dict[key], key) for key in feature_name_dict])
+    for each_feature_name in feature_name_list:
+        f.write("@attribute\t")
+        f.write(each_feature_name[1])
+        f.write("\t")
+        f.write("numeric\n")
+    f.write("@attribute\tscore\tnumeric\n\n")
+
+
+    #Now write stuff about all tweets back to file as well in sparse ARFF format
+    f.write("@DATA\n")
+    for each_tweet in modified_tweet_list:
+        f.write('{')
+        for each_feature in each_tweet[1:]:
+            index = each_feature[0]
+            value = each_feature[1]
+
+            f.write(str(index))
+            f.write(' ')
+            f.write(str(value))
+            f.write(', ')
+
+        f.write(str(total_feats))
+        f.write(' ')
+        f.write(str(each_tweet[0]))
+        f.write("}\n")
+
+    f.close()
+
+
+def create_arff_file(training_tweet_list, training_file, test_tweet_list, test_file):
+    """
+    Reformats data so that it can easily be written to arff files.
 
     :param tweetList: List of Tweet objects
     :param filename: The file name to which to write
     :return:
     """
 
-    with open(filename+".arff", 'w') as f:
+    #get the total number of unique features
+    feature_name_dict = {}
+    total_feats = 0
 
-        f.write("@relation tweet_sentiments\n\n")
+    #This will be used to write data back to file
+    modified_train_tweet_list = []
 
-        #get the total number of unique features
-        feature_name_dict = {}
-        total_feats = 0
+    for each_tweet in training_tweet_list:
 
-        #This will be used to write data back to file
-        modified_tweet_list = []
+        modified_feature_list = []
 
-        for each_tweet in tweetList:
+        features_list = each_tweet.featureList
+        for each_feature in features_list:
+            if each_feature.name not in feature_name_dict:
+                feature_name_dict[each_feature.name] = total_feats
+                total_feats += 1
+                modified_feature_list.append((total_feats-1, each_feature.value))
+            else:
+                modified_feature_list.append((feature_name_dict[each_feature.name], each_feature.value))
 
+
+        #Append the score at the end as well
+        modified_feature_list.append(each_tweet.score)
+        modified_train_tweet_list.append(sorted(modified_feature_list))
+
+
+    #If we have been supplied a test_file, then we need to get the features from the test set as well
+    if test_file is not None:
+        modified_test_tweet_list = []
+
+        for each_tweet in test_tweet_list:
             modified_feature_list = []
 
             features_list = each_tweet.featureList
@@ -42,37 +102,15 @@ def create_arff_file(tweetList, filename):
                 else:
                     modified_feature_list.append((feature_name_dict[each_feature.name], each_feature.value))
 
-            modified_tweet_list.append(sorted(modified_feature_list))
+
             #Append the score at the end as well
-            modified_tweet_list.append(each_tweet.score)
-
-        #write info about all features to file
-        feature_name_list = sorted([(feature_name_dict[key], key) for key in feature_name_dict])
-        for each_feature_name in feature_name_list:
-            f.write("@attribute\t")
-            f.write(each_feature_name)
-            f.write("\t")
-            f.write("numeric\n")
-        f.write("score\tnumeric\n\n")
+            modified_feature_list.append(each_tweet.score)
+            modified_test_tweet_list.append(sorted(modified_feature_list))
 
 
-        #Now write stuff about all tweets back to file as well in sparse ARFF format
-        f.write("@DATA\n\n")
-        for each_tweet in modified_tweet_list:
-            f.write('{')
-            for each_feature in each_tweet[:-1]:
-                index = each_feature[0]
-                value = each_feature[1]
-
-                f.write(str(index))
-                f.write(' ')
-                f.write(str(value))
-                f.write(', ')
-
-            f.write(str(total_feats))
-            f.write(' ')
-            f.write(str(each_tweet[-1]))
-            f.write("}\n")
+    #write info about all features to training_file
+    write_to_file(training_file, feature_name_dict, modified_train_tweet_list, total_feats)
+    write_to_file(test_file, feature_name_dict, modified_test_tweet_list, total_feats)
 
 
 
@@ -84,7 +122,7 @@ def train_with_cv(trainFile, folds):
     :return:
     """
 
-    command = 'java weka.classifiers.functions.LinearRegression -t ' + trainFile + ' -x ' +str(folds)
+    command = 'java weka.classifiers.functions.LinearRegression -t ' + trainFile + ' -x ' + str(folds) + ' -p 0'
     os.system(command)
 
 
@@ -96,7 +134,7 @@ def train_with_test(trainFile, testFile):
     :return:
     """
 
-    command = 'java weka.classifiers.functions.LinearRegression -t ' + trainFile + ' -T ' + testFile
+    command = 'java weka.classifiers.functions.LinearRegression -t ' + trainFile + ' -T ' + testFile + ' -p 0'
     os.system(command)
 
 
