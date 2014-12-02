@@ -4,8 +4,7 @@ class Tweet:
     featureList contains a list of objects of Feature class
     """
 
-
-    def __init__(self, id=None, content="", score=0, featureList=[]):
+    def __init__(self, id=None, content=None, score=0, featureList=None):
 
         self.id = id
         self.content = content
@@ -20,7 +19,7 @@ class Feature:
     name is always a string
     """
 
-    def __init__(self, name="", value=""):
+    def __init__(self, name="", value=0):
 
         self.name = name
         self.value = value
