@@ -1,4 +1,4 @@
-You can run this program in one of two ways:
+You can run this program in one of 2 ways:
 
 1) python analyze_sentiment <training_data_file>
 
