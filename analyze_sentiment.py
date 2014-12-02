@@ -1,4 +1,3 @@
-__author__ = 'yogarshi'
 """
 This is the code that has to be run.
 """
@@ -23,10 +22,11 @@ def read_tweets(filename):
     :param filename:
     :return:
     """
-     ## TODO: Abhay
+     ### TODO: Abhay
 
     tweet_list = list()
 
+    ###Remove this once this function is written
     tweet_list.append(Tweet(1, tokenize("This is a test tweet #Works"), 0))
     tweet_list.append(Tweet(2, tokenize("This is another test tweet :( #Works"), -1))
     tweet_list.append(Tweet(3, tokenize("This is the last test tweet :) #Works"), 1))
@@ -38,6 +38,7 @@ def get_features(tweet_content):
     ### TODO: feature extraction functions
 
     feature_list = []
+
 
     feature_list += sample_feature(tweet_content)
 
@@ -68,9 +69,10 @@ def main(argv):
 
     #Read the tweets and store in a tokenized form
     training_tweet_list = read_tweets(train_file_raw)
+    test_tweet_list = []
     if test_file_raw is not None:
         test_tweet_list = read_tweets(test_file_raw)
-
+        test_tweet_list = [Tweet(1, tokenize("This is a test tweet #Works"), 0)]
 
 
     #Assemble the features
@@ -84,9 +86,7 @@ def main(argv):
 
 
     #Create training and testing files
-    create_arff_file(training_tweet_list, training_file_arff)
-    if test_file_raw is not None:
-        create_arff_file(test_tweet_list, test_file_arff)
+    create_arff_file(training_tweet_list, training_file_arff, test_tweet_list, test_file_arff)
 
 
 
