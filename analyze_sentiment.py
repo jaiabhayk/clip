@@ -4,13 +4,15 @@ This is the code that has to be run.
 
 from weka_interface import *
 import sys
+import time
 from twokenize import *
+
 
 def sample_feature(tweet_content):
 
     f_list = []
-    for each_word in tweet_content:
-        f_list.append(Feature(each_word, 1))
+
+    f_list.append(Feature("num_words", len(tweet_content)))
 
     return f_list
 
@@ -60,7 +62,7 @@ def main(argv):
 
     train_file_raw = argv[0]
     test_file_raw = None
-    folds = 2  # ## TODO: Make this a command line parameter
+    folds = 5  # ## TODO: Make this a command line parameter
 
     training_file_arff = "TrainingSet.arff"
     test_file_arff = "TestSet.arff"
@@ -77,7 +79,6 @@ def main(argv):
     test_tweet_list = []
     if test_file_raw is not None:
         test_tweet_list = read_tweets(test_file_raw)
-        test_tweet_list = [Tweet(1, tokenize("This is a test tweet #Works"), 0)]
 
 
     # Assemble the features
@@ -93,7 +94,7 @@ def main(argv):
     # Create training and testing files
     create_arff_file(training_tweet_list, training_file_arff, test_tweet_list, test_file_arff)
 
-
+    start_time = time.time()
 
     # If test file is given, perform training with evaluation on the test set, else do k fold cross-validation
     if test_file_raw is not None:
@@ -101,10 +102,13 @@ def main(argv):
     else:
         train_with_cv(training_file_arff, folds)
 
+    end_time = time.time()
+
+
+    time_taken = end_time - start_time
+    print "Time taken to run : ",  time_taken
+
 
 
 if __name__ == "__main__":
-    trainFile = 'DataCopy1/TrainingSetCleaned_small.txt'
-    testFile = 'DataCopy1/TrialSetCleaned_small.txt'
-    main([trainFile, testFile])
-#     main(sys.argv[1:])
+    main(sys.argv[1:])
