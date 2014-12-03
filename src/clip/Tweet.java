@@ -126,7 +126,7 @@ public class Tweet {
 
 	@Override
 	public String toString() {
-		return String.valueOf(oldId) + TAB + String.valueOf(newId) + TAB
+		return String.valueOf(newId) + TAB
 				+ String.valueOf(newScore) + TAB + tweet;
 
 	}

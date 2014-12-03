@@ -28,9 +28,9 @@ public class Util {
 		String train = pathPrefix + "/" + "TrainingSet.txt";
 		String test = pathPrefix + "/" + "TrialSet.txt";
 		;
-		String destTrain = train + "new.txt";
-		String destTest = test + "new.txt";
-		String infoFile = pathPrefix + "/" + "infoFile.txt";
+		String destTrain = pathPrefix + "/" + "TrainingSetCleaned.txt";
+		String destTest = pathPrefix + "/" + "TrialSetCleaned.txt";
+		String infoFile = pathPrefix + "/" + "cleaningInfoFile.txt";
 
 		String info = removeDuplicates(train, test, destTrain, destTest);
 		File file1 = new File(infoFile);
