@@ -22,10 +22,9 @@ def read_tweets(filename):
     :param filename:
     :return:
     """
-     # ## TODO: Abhay
-
     tweet_list = list()
-    for line in open(filename, 'r').readlines():
+    f = open(filename, 'r')
+    for line in f.readlines():
         values = line.split("\t");
         if len(values) > 3:
             print 'Unexpected tweet'
@@ -35,6 +34,7 @@ def read_tweets(filename):
         text = values[2]
         score = values[1]
         tweet_list.append(Tweet(id, tokenize(text), score))
+    f.close()
     return tweet_list
 
 
