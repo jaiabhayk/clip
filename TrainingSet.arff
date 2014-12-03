@@ -1,0 +1,73 @@
+@relation tweet_sentiments
+
+@attribute	The	numeric
+@attribute	happy	numeric
+@attribute	song	numeric
+@attribute	does	numeric
+@attribute	not	numeric
+@attribute	invoke	numeric
+@attribute	good	numeric
+@attribute	feelings	numeric
+@attribute	.	numeric
+@attribute	It's	numeric
+@attribute	actually	numeric
+@attribute	quite	numeric
+@attribute	extremely	numeric
+@attribute	annoying	numeric
+@attribute	#irony	numeric
+@attribute	I	numeric
+@attribute	just	numeric
+@attribute	love	numeric
+@attribute	working	numeric
+@attribute	for	numeric
+@attribute	6.5	numeric
+@attribute	hours	numeric
+@attribute	without	numeric
+@attribute	a	numeric
+@attribute	break	numeric
+@attribute	or	numeric
+@attribute	anything	numeric
+@attribute	Especially	numeric
+@attribute	when	numeric
+@attribute	I'm	numeric
+@attribute	on	numeric
+@attribute	my	numeric
+@attribute	period	numeric
+@attribute	and	numeric
+@attribute	have	numeric
+@attribute	awful	numeric
+@attribute	cramps	numeric
+@attribute	#NOT	numeric
+@attribute	Having	numeric
+@attribute	to	numeric
+@attribute	run	numeric
+@attribute	the	numeric
+@attribute	train	numeric
+@attribute	first	numeric
+@attribute	thing	numeric
+@attribute	in	numeric
+@attribute	morning	numeric
+@attribute	is	numeric
+@attribute	great	numeric
+@attribute	way	numeric
+@attribute	start	numeric
+@attribute	day	numeric
+@attribute	#not	numeric
+@attribute	@OmniJerBear	numeric
+@attribute	haha	numeric
+@attribute	should	numeric
+@attribute	had	numeric
+@attribute	#sarcasm	numeric
+@attribute	at	numeric
+@attribute	end	numeric
+@attribute	This	numeric
+@attribute	test	numeric
+@attribute	tweet	numeric
+@attribute	#Works	numeric
+@attribute	score	numeric
+
+@DATA
+{0 1, 1 1, 2 1, 3 1, 4 1, 5 1, 6 1, 7 1, 8 1, 8 1, 9 1, 10 1, 11 1, 12 1, 13 1, 14 1, 64 -3.92}
+{8 1, 8 1, 15 1, 16 1, 17 1, 18 1, 19 1, 20 1, 21 1, 22 1, 23 1, 24 1, 25 1, 26 1, 27 1, 28 1, 29 1, 30 1, 31 1, 32 1, 33 1, 34 1, 35 1, 36 1, 37 1, 64 -3.99}
+{23 1, 38 1, 39 1, 39 1, 39 1, 40 1, 41 1, 41 1, 41 1, 42 1, 43 1, 44 1, 45 1, 46 1, 47 1, 48 1, 49 1, 50 1, 51 1, 52 1, 64 -2.22}
+{34 1, 41 1, 53 1, 54 1, 55 1, 56 1, 57 1, 58 1, 59 1, 64 -0.56}

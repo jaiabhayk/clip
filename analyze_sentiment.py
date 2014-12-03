@@ -22,20 +22,25 @@ def read_tweets(filename):
     :param filename:
     :return:
     """
-     ### TODO: Abhay
+     # ## TODO: Abhay
 
     tweet_list = list()
-
-    ###Remove this once this function is written
-    tweet_list.append(Tweet(1, tokenize("This is a test tweet #Works"), 0))
-    tweet_list.append(Tweet(2, tokenize("This is another test tweet :( #Works"), -1))
-    tweet_list.append(Tweet(3, tokenize("This is the last test tweet :) #Works"), 1))
+    for line in open(filename, 'r').readlines():
+        values = line.split("\t");
+        if len(values) > 3:
+            print 'Unexpected tweet'
+            sys.exit()
+            
+        id = values[0]
+        text = values[2]
+        score = values[1]
+        tweet_list.append(Tweet(id, tokenize(text), score))
     return tweet_list
 
 
 def get_features(tweet_content):
-    ### TODO: Using a toy feature right now to check all other parts of the code. This function will call all other
-    ### TODO: feature extraction functions
+    # ## TODO: Using a toy feature right now to check all other parts of the code. This function will call all other
+    # ## TODO: feature extraction functions
 
     feature_list = []
 
@@ -51,11 +56,11 @@ def main(argv):
         print "Incorrect number of arguments. Usage python analyze_sentiment.py <training_data_file> [<test_data_file>]"
         sys.exit()
 
-    ###TODO: Use argparse to handle command line arguments
+    # ##TODO: Use argparse to handle command line arguments
 
     train_file_raw = argv[0]
     test_file_raw = None
-    folds = 2                 ### TODO: Make this a command line parameter
+    folds = 2  # ## TODO: Make this a command line parameter
 
     training_file_arff = "TrainingSet.arff"
     test_file_arff = "TestSet.arff"
@@ -67,7 +72,7 @@ def main(argv):
 
 
 
-    #Read the tweets and store in a tokenized form
+    # Read the tweets and store in a tokenized form
     training_tweet_list = read_tweets(train_file_raw)
     test_tweet_list = []
     if test_file_raw is not None:
@@ -75,7 +80,7 @@ def main(argv):
         test_tweet_list = [Tweet(1, tokenize("This is a test tweet #Works"), 0)]
 
 
-    #Assemble the features
+    # Assemble the features
     for each_tweet in training_tweet_list:
         each_tweet.featureList = get_features(each_tweet.content)
 
@@ -85,12 +90,12 @@ def main(argv):
 
 
 
-    #Create training and testing files
+    # Create training and testing files
     create_arff_file(training_tweet_list, training_file_arff, test_tweet_list, test_file_arff)
 
 
 
-    #If test file is given, perform training with evaluation on the test set, else do k fold cross-validation
+    # If test file is given, perform training with evaluation on the test set, else do k fold cross-validation
     if test_file_raw is not None:
         train_with_test(training_file_arff, test_file_arff)
     else:
@@ -99,4 +104,7 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    trainFile = 'DataCopy1/TrainingSetCleaned_small.txt'
+    testFile = 'DataCopy1/TrialSetCleaned_small.txt'
+    main([trainFile, testFile])
+#     main(sys.argv[1:])
