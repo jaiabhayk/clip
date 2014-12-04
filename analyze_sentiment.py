@@ -2,17 +2,22 @@
 This is the code that has to be run.
 """
 
-from weka_interface import *
+#from weka_interface import *
 import sys
 import time
 from twokenize import *
+from vw_interface import *
+from tweet import *
 
 
 def sample_feature(tweet_content):
 
     f_list = []
 
-    f_list.append(Feature("num_words", len(tweet_content)))
+    tweet_content = list(set(tweet_content))
+    for each_word in tweet_content:
+        if each_word.isalnum():
+            f_list.append(Feature(each_word, 1))
 
     return f_list
 
@@ -64,8 +69,8 @@ def main(argv):
     test_file_raw = None
     folds = 5  # ## TODO: Make this a command line parameter
 
-    training_file_arff = "TrainingSet.arff"
-    test_file_arff = "TestSet.arff"
+    training_file = "TrainingSet.txt"
+    test_file = "TestSet.txt"
 
 
     # Check if testfile has been provided
@@ -92,21 +97,14 @@ def main(argv):
 
 
     # Create training and testing files
-    create_arff_file(training_tweet_list, training_file_arff, test_tweet_list, test_file_arff)
+    #create_arff_file(training_tweet_list, training_file, test_tweet_list, test_file)
+    write_to_file(training_tweet_list, training_file)
+    write_to_file(test_tweet_list, test_file)
+
 
     start_time = time.time()
-
-    # If test file is given, perform training with evaluation on the test set, else do k fold cross-validation
-    if test_file_raw is not None:
-        train_with_test(training_file_arff, test_file_arff)
-    else:
-        train_with_cv(training_file_arff, folds)
-
-    end_time = time.time()
-
-
-    time_taken = end_time - start_time
-    print "Time taken to run : ",  time_taken
+    train_vw(training_file)
+    test_vw(test_file)
 
 
 
