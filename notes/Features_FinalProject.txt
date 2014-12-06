@@ -1,0 +1,66 @@
+﻿Word level
+contradiction
+explicitly negative words
+styles -- character n-grams
+
+
+Punctuation, emoticon and acronyms
+used or not/ No of times each has been used
+:) :D,:( :P :’(
+longest continuous sequence of emoticons 
+Sequence of punctuation marks (!!!!!,????, mixed punctuations used in a row)
+Acronyms ---- ?
+
+
+#(hash tag) features
+list of hash tags
+#irony
+#sarcasm
+#not
+look for higher frequency hash tags
+
+
+No. of hash tags
+
+
+Deeper semantics
+
+
+Deeper syntax
+
+
+Features:
+Dealing a negation: scoping of negation; context switching
+Negative verbs have negative connotation on the patient 
+Sentiment lexicon - Connotation lexicon 
+fall back on more general terms based on dependency parse
+plot histograms 
+
+
+
+
+
+
+Methods:
+
+
+Logistic Regression Problem
+
+
+
+
+Some observations:
+Most of them have #not, #sarcasm and have negative scores 
+Those that have good positive scores usually contain “literally”, “definitely”, “so to speak”, some have similes “as ******* as”
+
+
+Smileys:
+
+
+:),:-) - 103 times
+:-(,:) - 17 times
+;) - 23 times
+:P- 18 times
+:D - 8 times
+<3 - 13 times
+Reference for figures of speech: http://examples.yourdictionary.com/figure-of-speech-examples.html

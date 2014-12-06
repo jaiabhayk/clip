@@ -1,0 +1,22 @@
+﻿Reference: 2-4 page writeup of what you did-
+20% intro the problem and why it's important, 10% on the data you used and where you got it, 20-30% on the key idea you had and the methods you employed, and 40-50% on whether it worked and, when it didn't work, why not. i.e., regardless of how well your solution works, i want you to look at its output, and categorize in some meaningful and human- (i.e., hal-)intelligible manner what's going wrong
+
+
+Intro to the problem and its importance
+SemEval task to extract sentiment of figurative tweets. Figurative text has a meaning that is different and often contradicting to the original text. Sentiment analysis on such text is challenging.
+
+
+Data source and Nature of data
+SemEval train and trial data
+
+
+Key idea
+List of different features used
+
+
+Methods employed
+Logistic Regression
+Least Squares and L1
+
+
+Results and Error analysis
