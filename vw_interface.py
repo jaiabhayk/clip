@@ -68,6 +68,8 @@ def map_predictions(test_tweet_list, threshold):
             out_file.write('\n')
             out_file.write(each_tweet.content)
             out_file.write('\n')
+            out_file.write(str(each_tweet.tokenized))
+            out_file.write('\n')
             out_file.write(str(val))
             out_file.write('\t')
             out_file.write(str(pred))

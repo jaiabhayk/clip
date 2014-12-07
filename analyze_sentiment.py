@@ -8,8 +8,9 @@ import time
 from twokenize import *
 from vw_interface import *
 from tweet import *
-import mixed_bag
-from mixed_bag import *
+from abhay_features import *
+from rashmi_features import *
+from yogarshi_features import *
 
 
 def read_tweets(filename):
@@ -39,6 +40,9 @@ def get_features(tweet_content):
     # ## TODO: feature extraction functions
 
     feature_list = []
+    feature_list += getAbhayFeatures(tweet_content)
+    feature_list += getRashmiFeatures(tweet_content)
+    feature_list += getYogarshiFeatures(tweet_content)
 
     return feature_list
 
@@ -93,9 +97,17 @@ def main(argv):
     #start_time = time.time()
     train_vw(training_file)
     test_vw(test_file)
+    
+#     training_tweet_frquencies = getHashTagFrequencies(training_tweet_list)
+#     test_tweet_frquencies = getHashTagFrequencies(test_tweet_list)
     print len(test_tweet_list)
     map_predictions(test_tweet_list, 0)
 
 
+
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    if (sys.argv):
+        print 'No Arguments passed, using default'
+        main(['DataCopy1/TrainingSetCleaned.txt', 'DataCopy1/TrialSetCleaned.txt'])
+    else:
+        main(sys.argv[1:])
