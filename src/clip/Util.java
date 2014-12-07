@@ -77,16 +77,20 @@ public class Util {
 					duplicates++;
 
 					Tweet t = Tweet.mergeTweets(trainTweet, testTweet);
-					if (trainTweet.getOldScore() != testTweet.getOldScore()) {
+					if ((trainTweet.getOldScore() - testTweet.getOldScore()) > 0.2 
+							|| (trainTweet.getOldScore() - testTweet.getOldScore()) < -0.2) {
 						sb.append("Score mismatch between testTweet and trainTweet:- "
 								+ testTweet.getOldScore()
 								+ "/"
 								+ trainTweet.getOldScore() + "\n");
 						scoreMismatch++;
-					}
+						
+					} else {
 					sb.append("Merged trainTweet:- \n" + t + "\n");
 					sb.append(NEW_ENTRY_SEPARATOR);
-					trainTweets.put(t.getOldId(), t);
+					testTweets.put(t.getOldId(), t);
+					}
+					trainTweets.remove(testTweet.getOldId());
 				} else {
 					testTweets.put(testTweet.getOldId(), testTweet);
 				}
