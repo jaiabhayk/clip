@@ -75,6 +75,7 @@ TODO If time permits:-
 4) clustering of hashtags (#fuckthehospital, #fucktheschool)
 5) slang words without any #tag..
 6) Emoticons eqquivalance classes.
+7) Tune VW parameters
 
 Refrences:-
 =========
