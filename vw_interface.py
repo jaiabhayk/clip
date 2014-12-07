@@ -59,7 +59,7 @@ def map_predictions(test_tweet_list, threshold):
     """
 
     pred_file = open("predictions.vw", 'r')
-    out_file = open("Predictions_read.txt", 'w')
+    out_file = open("Predictions.txt", 'w')
     for each_tweet in test_tweet_list:
         pred= float(pred_file.readline().strip())
         val = float(each_tweet.score)
