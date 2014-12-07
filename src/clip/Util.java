@@ -8,8 +8,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * @author JaiAbhay
@@ -99,6 +107,35 @@ public class Util {
 		} finally {
 			fileReader.close();
 		}
+		
+		Random randomGenerator = new Random();
+		HashSet s = new HashSet<Integer>();
+	    while (true) {
+	      int randomInt = randomGenerator.nextInt(trainTweets.size()+1);
+	      s.add(randomInt);
+	      if (s.size() == 500) {
+	    	  //sb.append("\n intergers:- " + s +"\n");
+	    	  break;
+	      }
+	    }
+	    
+	    ArrayList<String> keys = new ArrayList<String>();
+	    for (String key:trainTweets.keySet()) {
+	    	keys.add(key);
+	    	
+	    }
+	   
+	    
+	    Iterator it = s.iterator() ;
+	    
+	    while (it.hasNext()) {
+	    	String key = keys.get((int) it.next());
+	    	Tweet val = trainTweets.remove(key) ;
+	    	testTweets.put(key, val);
+	    	//sb.append("\n val:-" + val + "\n");
+	    	
+	    }
+	    
 		sb.append("no of duplicates found:- " + duplicates + "\n");
 		sb.append("no of duplicates with score mismatch found:- "
 				+ scoreMismatch + "\n");

@@ -2639,5 +2639,5 @@ testTweet:- 465337843565723648	-3.0	Don't you love when you need to sleep. Want 
 Score mismatch between testTweet and trainTweet:- -3.0/-2.07
 no of duplicates found:- 485
 no of duplicates with score mismatch found:- 378
-Train data size:- 7505
-Test data size:- 525
+Train data size:- 7005
+Test data size:- 1025
