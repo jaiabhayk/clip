@@ -115,7 +115,7 @@ def main(argv):
     print "Generating Predictions.txt for error analysis..."
     print "#############################"
     print
-    map_predictions(test_tweet_list, 0)
+    map_predictions(test_tweet_list, 0.1)
 
 
 if __name__ == "__main__":

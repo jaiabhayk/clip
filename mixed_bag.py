@@ -53,6 +53,16 @@ def is_retweet(tweet_content):
     else:
         return [Feature("is_retweet", 0)]
 
+
+def num_at_mentions(tweet_content):
+    val = 0
+    for each_token in tweet_content:
+        if each_token[0] == '@':
+            val += 1
+
+    return [Feature("num_at_mentions", val)]
+
+
 def combine_features(tweet_content):
 
     f_list = []
@@ -61,6 +71,7 @@ def combine_features(tweet_content):
     f_list += add_bigrams(tweet_content)
     f_list += add_trigrams(tweet_content)
     f_list += is_retweet(tweet_content)
+    f_list += num_at_mentions(tweet_content)
 
 
     return f_list
