@@ -12,16 +12,20 @@ def getHashTagFeatures(tweet_content):
             if token[0] == '#':
                 token = normalizeHashTag(token)
                 if token is None:
-                    print '\n Ignoring hashTag:- ', token, '=', hashTags[token]
+                    unused = 1;
+#                     print '\n Ignoring hashTag:- ', token, '=', hashTags[token]
                 else:
                     hashTags[token] += 1
-                    print '\n hashTag:- ', token, '=', hashTags[token]
+#                     print '\n hashTag:- ', token, '=', hashTags[token]
                     
-    print '\n All hash tags frequencies:- \n', hashTags
+#     print '\n All hash tags frequencies:- \n', hashTags
     for tag in hashTags:
         f_list.append(Feature(tag, hashTags[tag]))
         
-    print '\n Hash Tag Features List:-\n', f_list
+#     print '\n Hash Tag Features List:-\n'
+#     for f in f_list:
+#         print f, '\t'
+
     return f_list
 
 def normalizeHashTag(tag):
