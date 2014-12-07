@@ -95,12 +95,26 @@ def main(argv):
 
     #Do vw stuff
     #start_time = time.time()
+
+    print "#############################"
+    print "Starting training...."
+    print "#############################"
+    print
     train_vw(training_file)
+
+    print
+    print "#############################"
+    print "Starting testing...."
+    print "#############################"
+    print
     test_vw(test_file)
-    
-#     training_tweet_frquencies = getHashTagFrequencies(training_tweet_list)
-#     test_tweet_frquencies = getHashTagFrequencies(test_tweet_list)
-    print len(test_tweet_list)
+
+
+    print
+    print "#############################"
+    print "Generating Predictions.txt for error analysis..."
+    print "#############################"
+    print
     map_predictions(test_tweet_list, 0)
 
 
