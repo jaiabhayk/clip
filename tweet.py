@@ -4,12 +4,13 @@ class Tweet:
     featureList contains a list of objects of Feature class
     """
 
-    def __init__(self, id=None, content=None, score=0, featureList=None):
+    def __init__(self, id=None, content=None, tokenized=None, score=0, featureList=None):
 
         self.id = id
         self.content = content
+        self.tokenized = tokenized
         self.score = score
-        self.featureList = []
+        self.featureList = featureList
 
 
 class Feature:
