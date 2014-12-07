@@ -104,9 +104,8 @@ def main(argv):
     map_predictions(test_tweet_list, 0)
 
 
-
 if __name__ == "__main__":
-    if (sys.argv):
+    if len(sys.argv) == 1:
         print 'No Arguments passed, using default'
         main(['DataCopy1/TrainingSetCleaned.txt', 'DataCopy1/TrialSetCleaned.txt'])
     else:

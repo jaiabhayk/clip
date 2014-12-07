@@ -37,7 +37,7 @@ def add_trigrams(tweet_content):
     tri_dict = {}
     for i in range(len(tweet_content)-2):
         if tweet_content[i].isalnum() and tweet_content[i+1].isalnum() and tweet_content[i+2].isalnum():
-            t = tweet_content[i].lower() + '_' + tweet_content[i+1].lower() + '_' + tweet_content[i+2]
+            t = tweet_content[i].lower() + '_' + tweet_content[i+1].lower() + '_' + tweet_content[i+2].lower()
             if t not in tri_dict:
                 tri_dict[t] = 0
             tri_dict[t] += 1
