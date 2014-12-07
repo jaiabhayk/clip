@@ -62,6 +62,80 @@ def num_at_mentions(tweet_content):
 
     return [Feature("num_at_mentions", val)]
 
+def get_n_grams(word,n):
+    n_grams = {}
+    for i in range(len(word)-(n-1)):
+        n_gram = word[i:i+n]
+        if n_gram not in n_grams:
+            n_grams[n_gram] = 0
+        n_grams[n_gram] += 1
+
+    return sorted([(n_grams[x], x) for x in n_grams])
+
+
+def character_n_grams(tweet_content):
+    f_list = []
+    for each_word in tweet_content:
+        if each_word.isalpha():
+            #bigrams = get_n_grams(each_word.lower(),)
+            trigrams = get_n_grams(each_word.lower(),3)
+            #for each_bigram in bigrams:
+            #    f_list.append(Feature(each_bigram[1], each_bigram[0]))
+            for each_trigram in trigrams:
+                f_list.append(Feature(each_trigram[1], each_trigram[0]))
+
+    return f_list
+
+
+def cf_terms(tweet_content):
+    cf_list = ['about', 'almost', 'although', 'approximately', 'around', 'but', 'close', 'even', 'hence', 'herefore',
+               'however', 'just', 'less', 'merely', 'more', 'most', 'near', 'nearly', 'nevertheless', 'nigh', 'no',
+               'non', 'nonetheless', 'not', 'notwithstanding', 'now', 'only', 'roughly', 'simply', 'so', 'some',
+               'still', 'then', 'thence', 'therefore', 'though', 'thus', 'virtually', 'well-nigh', 'withal', 'yet']
+
+    val = {}
+    f_list  =[]
+    for each_word in tweet_content:
+        if each_word.lower() in cf_list:
+            if each_word.lower() not in val:
+                val[each_word.lower()] = 0
+            val[each_word.lower()] += 1
+
+    for each_word in val:
+        f_list.append(Feature(each_word, val[each_word]))
+
+    return f_list
+
+
+def slang_word(tweet_content):
+
+
+    slang_list = ['fuck', 'fucking', 'fucks', 'fucked', 'shit', 'bitch', 'bitches']
+    count = 0
+    for each_word in tweet_content:
+        if each_word.lower() in slang_list :
+            count += 1
+            #return [Feature("fuck", 1)]
+    return [Feature("fuck", count)]
+
+
+def has_words(tweet_content):
+    word_list = ['irony', 'sarcasm']
+
+    val = {}
+    f_list  =[]
+    for each_word in tweet_content:
+        if each_word.lower() in word_list:
+            if each_word.lower() not in val:
+                val[each_word.lower()] = 0
+            val[each_word.lower()] += 1
+
+    for each_word in val:
+        f_list.append(Feature(each_word, val[each_word]))
+
+    return  f_list
+
+
 
 def combine_features(tweet_content):
 
@@ -72,7 +146,10 @@ def combine_features(tweet_content):
     f_list += add_trigrams(tweet_content)
     f_list += is_retweet(tweet_content)
     f_list += num_at_mentions(tweet_content)
-
+    #f_list += character_n_grams(tweet_content)
+    f_list += cf_terms(tweet_content)
+    f_list += slang_word(tweet_content)
+    f_list += has_words(tweet_content)
 
     return f_list
 
