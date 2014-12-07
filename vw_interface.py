@@ -37,6 +37,10 @@ def train_vw(training_file):
     :param training_file:
     :return:
     """
+    command = "rm *.cache"
+    os.system(command)
+    command = "rm model.vw"
+    os.system(command)
     command = path_to_vw + ' -d' + training_file + ' -c --passes=10 -b 25 -f model.vw --ignore i'
     os.system(command)
 
