@@ -37,7 +37,7 @@ def train_vw(training_file):
     :param training_file:
     :return:
     """
-    command = path_to_vw + ' -d' + training_file + ' --passes=10 -b 25 -f model.vw --ignore i'
+    command = path_to_vw + ' -d' + training_file + ' -c --passes=10 -b 25 -f model.vw --ignore i'
     os.system(command)
 
 def test_vw(test_file):
