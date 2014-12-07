@@ -3,7 +3,7 @@ contradiction
 explicitly negative words
 styles -- character n-grams
 
-
+Emoticons eqquivalance classes.
 Punctuation, emoticon and acronyms
 used or not/ No of times each has been used
 :) :D,:( :P :’(
@@ -18,6 +18,7 @@ list of hash tags
 #sarcasm
 #not
 look for higher frequency hash tags
+number of the #tags used in the sentence
 
 
 No. of hash tags
@@ -64,3 +65,18 @@ Smileys:
 :D - 8 times
 <3 - 13 times
 Reference for figures of speech: http://examples.yourdictionary.com/figure-of-speech-examples.html
+
+
+TODO If time permits:-
+====================
+1) Normalization twitter words
+2) sentence detection and use somewhat raw score coorelation between sentences...
+3) What to do with hyperlinks ??
+4) clustering of hashtags (#fuckthehospital, #fucktheschool)
+5) slang words without any #tag..
+6) Emoticons eqquivalance classes.
+
+Refrences:-
+=========
+http://www.google.com/url?q=http%3A%2F%2Fs3.eddieoz.com%2Fdocs%2Fsentiment_analysis%2FTwitter_Sentiment_Classification_using_Distant_Supervision.pdf&sa=D&sntz=1&usg=AFQjCNHKXW0rzFAYv-WFQyzide6X14CNpA
+
