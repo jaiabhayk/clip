@@ -3,10 +3,10 @@ __author__ = 'rashmi'
 from tweet import *
 
 def smiley_count(tweet_content):
-    smile = [':)', ':-)','^_^']
-    sad = [':(', ':-(']
-    kidding = [':P', ':-P']
-    wink = [';)',';-)']
+    smiley_smile = [':)', ':-)','^_^']
+    smiley_sad = [':(', ':-(']
+    smiley_kidding = [':P', ':-P']
+    smiley_wink = [';)',';-)']
     surprize = [':O',':-O']
     laugh = [':D', ':-D',":'D",":'-D"]
     cry = [":'(",":'-(", ":*(", ":*-(",":{",":["]
