@@ -34,8 +34,8 @@ def normalizeHashTag(tag):
     also using eqquivalance class name for any tag. 
     Return None if the tag should not be considered
     """
-    supported_hash_tags = ['sarcasm', 'not', 'irony']
-    if tag[1:].lower() not in supported_hash_tags:
+    supported_hash_tags = ['#sarcasm', '#not', '#irony']
+    if tag.lower() not in supported_hash_tags:
         return None
     else:
         return tag.lower();
