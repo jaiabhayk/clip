@@ -5,6 +5,7 @@ package clip;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class Util {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
+		
 		String pathPrefix = "DataCopy1";
 		String train = pathPrefix + "/" + "TrainingSet.txt";
 		String test = pathPrefix + "/" + "TrialSet.txt";
@@ -40,12 +42,44 @@ public class Util {
 		String destTest = pathPrefix + "/" + "TrialSetCleaned.txt";
 		String infoFile = pathPrefix + "/" + "cleaningInfoFile.txt";
 
-		String info = removeDuplicates(train, test, destTrain, destTest);
+/*		String info = removeDuplicates(train, test, destTrain, destTest);
 		File file1 = new File(infoFile);
 		FileWriter fileWriter = new FileWriter(file1);
 		fileWriter.write(info);
 		fileWriter.flush();
+		fileWriter.close();*/
+		
+		convdertAndWriteForPosTagger(destTrain);
+		convdertAndWriteForPosTagger(destTest);
+		
+	}
+    
+	//Writes in a format which pos tagger can understand
+	//output file name is fileName.posTagger.tmp
+	private static void convdertAndWriteForPosTagger(String source) throws Exception {
+		String destFile = source +".posTagger.tmp";
+		File file = new File(source);
+		FileReader fileReader = new FileReader(file);
+		StringBuilder sb = new StringBuilder();
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		String line;
+		try {
+			while ((line = bufferedReader.readLine()) != null) {
+				Tweet tweet = new Tweet(line);
+				sb.append(tweet.getTweet() +"\n");
+			}
+		} finally {
+			fileReader.close();
+		}
+		
+		File file1 = new File(destFile);
+		FileWriter fileWriter = new FileWriter(file1);
+			fileWriter.write(sb.toString());
+		fileWriter.flush();
 		fileWriter.close();
+		
+		
+		
 	}
 
 	private static String removeDuplicates(String source1, String source2,

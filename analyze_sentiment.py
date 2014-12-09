@@ -20,29 +20,50 @@ def read_tweets(filename):
     :return:
     """
     tweet_list = list()
+    
     f = open(filename, 'r')
+    ids = [];
+    scores = {};
+    
     for line in f.readlines():
         values = line.split("\t");
         if len(values) > 3:
             print 'Unexpected tweet'
             sys.exit()
             
-        id = values[0]
-        text = values[2]
-        score = values[1]
-        tweet_list.append(Tweet(id, text, tokenize(text), score))
+        ids.append(values[0])
+        scores[values[0]] = values[1]
+    f.close()
+    
+    #filename.posTagged is the file after running posTagger
+    filename_posTagged = ''.join([filename,'.posTagged']);
+    f = open(filename_posTagged, 'r')
+    index = -1;
+    for line in f.readlines():
+        values = line.split("\t");
+        if len(values) != 4:
+            print 'Unexpected tweet'
+            sys.exit()
+        index +=1 
+        id = ids[index]
+        text = values[3]
+        tokenize_text = values[0].split(' ');
+        score = scores[id]
+        posTag = PosTag(values[1],values[2])
+        print tokenize_text
+        tweet_list.append(Tweet(id, text, tokenize_text, score, posTag))
     f.close()
     return tweet_list
 
 
-def get_features(tweet_content):
+def get_features(tweet):
     # ## TODO: Using a toy feature right now to check all other parts of the code. This function will call all other
     # ## TODO: feature extraction functions
 
     feature_list = []
-    feature_list += getAbhayFeatures(tweet_content)
-    feature_list += getRashmiFeatures(tweet_content)
-    feature_list += getYogarshiFeatures(tweet_content)
+    feature_list += getAbhayFeatures(tweet)
+    feature_list += getRashmiFeatures(tweet)
+    feature_list += getYogarshiFeatures(tweet)
 
     return feature_list
 
@@ -78,12 +99,12 @@ def main(argv):
 
     # Assemble the features
     for each_tweet in training_tweet_list:
-        each_tweet.featureList = get_features(each_tweet.tokenized)
+        each_tweet.featureList = get_features(each_tweet)
         each_tweet.featureList.append(Feature("tweet_id", each_tweet.id))
 
     if test_file_raw is not None:
         for each_tweet in test_tweet_list:
-            each_tweet.featureList = get_features(each_tweet.tokenized)
+            each_tweet.featureList = get_features(each_tweet)
             each_tweet.featureList.append(Feature("tweet_id", each_tweet.id))
 
 
