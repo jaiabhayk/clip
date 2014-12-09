@@ -67,7 +67,7 @@ Smileys:
 Reference for figures of speech: http://examples.yourdictionary.com/figure-of-speech-examples.html
 
 
-TODO If time permits:-
+TODO:-
 ====================
 1) Normalization twitter words
 2) sentence detection and use somewhat raw score coorelation between sentences...
@@ -75,7 +75,13 @@ TODO If time permits:-
 4) clustering of hashtags (#fuckthehospital, #fucktheschool)
 5) slang words without any #tag..
 6) Emoticons eqquivalance classes.
-7) Tune VW parameters
+7) Tune VW parameters - (use L1 regularized regression)
+8)  elongated words (ex:- soooo).
+9) use vw-varinfo for feature selection (and relevance)
+10) use the pos tagging using the taggger and then use the score for that word#pos from the wordnet dictionary..
+11) surrounded with "" should have more weight .."liking"
+12) 
+
 
 Refrences:-
 =========
