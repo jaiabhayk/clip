@@ -1,3 +1,5 @@
+import sys
+
 class Tweet:
     """
     This object is used to store the tweets.
@@ -39,7 +41,10 @@ class PosTag:
     name is always a string
     """
 
-    def __init__(self, name="", value=0):
+    def __init__(self, name=None, value=None):
+        if len(name) !=len(value):
+            print 'Unexpected input, the length of the pos tags and their confidence values should be same'
+            sys.exit()
 
         self.name = name
         self.value = value
