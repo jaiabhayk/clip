@@ -22,7 +22,7 @@ def read_tweets(filename):
     tweet_list = list()
     
     f = open(filename, 'r')
-    ids = [];
+    ids = {};
     scores = {};
     
     for line in f.readlines():
@@ -30,26 +30,24 @@ def read_tweets(filename):
         if len(values) > 3:
             print 'Unexpected tweet'
             sys.exit()
-            
-        ids.append(values[0])
-        scores[values[0]] = values[1]
+        ids[values[2] ]=values[0]
+        scores[values[2] ] = values[1]
     f.close()
     
     #filename.posTagged is the file after running posTagger
     filename_posTagged = ''.join([filename,'.posTagged']);
     f = open(filename_posTagged, 'r')
-    index = -1;
     for line in f.readlines():
         values = line.split("\t");
         if len(values) != 4:
             print 'Unexpected tweet'
             sys.exit()
-        index +=1 
-        id = ids[index]
+        
         text = values[3]
+        id = ids[text]
         tokenize_text = values[0].split(' ');
-        score = scores[id]
-        posTag = PosTag(values[1],values[2])
+        score = scores[text]
+        posTag = PosTag(values[1].split(),values[2].split())
         tweet_list.append(Tweet(id, text, tokenize_text, score, posTag))
     f.close()
     return tweet_list
