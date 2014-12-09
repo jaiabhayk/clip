@@ -5,7 +5,7 @@ from vw_interface import *
 from tweet import *
 from collections import Counter
 
-debug = True
+debug = False
 
 def populate_senti_word_dict(filename):
     """
