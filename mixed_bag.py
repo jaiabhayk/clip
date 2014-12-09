@@ -4,15 +4,68 @@ Mixed bag of features
 """
 
 from tweet import *
+import nltk
+from nltk.corpus import stopwords
 
 def num_capital(tweet_content):
 
     val = 0
+    tot = 0
     for each_token in tweet_content:
-        if each_token.isupper():
-            val += 1
+        if each_token.isalpha():
+            tot += 1
+            if each_token.isupper():
+                val += 1
 
-    return [Feature("num_capital", val)]
+    if tot == 0:
+        out = 0
+    else:
+        out = float(val)/float(tot)
+
+    return [Feature("num_capital", out)]
+
+
+def words(tweet_content):
+
+
+    f_list = []
+    bi_dict = {}
+    for i in range(len(tweet_content)):
+        if tweet_content[i].isalnum():
+            t = tweet_content[i].lower()
+            if t not in bi_dict:
+                bi_dict[t] = 0
+            bi_dict[t] +=1
+
+    for each in bi_dict:
+        f_list.append(Feature(each, bi_dict[each]))
+    return f_list
+
+def is_wellformed(word):
+
+    if ':' not in word:
+        return True
+    return False
+
+
+def skip_2grams(tweet_content, skip_length):
+
+    correct = ["as_as"]
+    s_grams = {}
+    ret_list = []
+    for i in range(1, len(tweet_content)-(skip_length)):
+        if tweet_content[i].lower().isalnum() and tweet_content[i+2].lower().isalnum() \
+                and tweet_content[i-1].lower() == "about":
+            t = tweet_content[i+1].lower() #+ '_' + tweet_content[i+2]
+            if t not in correct:
+                if t not in s_grams:
+                    s_grams[t] = 0
+                s_grams[t] += 1
+
+    for each in s_grams:
+        ret_list.append(Feature(each, s_grams[each]))
+    return ret_list
+
 
 
 def add_bigrams(tweet_content):
@@ -120,7 +173,8 @@ def slang_word(tweet_content):
 
 
 def has_words(tweet_content):
-    word_list = ['irony', 'sarcasm', 'literally', 'definitely', 'lol', 'lmao', 'lmfao', 'jk', 'proverbial', 'virtually', 'funny']#,"so to speak"]
+    word_list = ['irony', 'sarcasm', 'literally', 'definitely', 'lol', 'lmao', 'lmfao', 'jk', 'proverbial', 'virtually',
+                 'funny']#,"so to speak"]
 
     val = {}
     f_list  =[]
@@ -136,12 +190,62 @@ def has_words(tweet_content):
     return  f_list
 
 
+def surrounded_by_quotes(tweet_content):
+
+    quoted_words = 0
+    tot = 0
+
+    for i in range(1,len(tweet_content)-1):
+        if is_wellformed(tweet_content[i]):
+            tot += 1
+            if tweet_content[i-1] == '"' and tweet_content[i+1] == '"':
+                quoted_words += 1
+
+    if tot == 0:
+        val = 0
+    else:
+        val = float(quoted_words)/tot
+
+    return [Feature("num_quoted_words", quoted_words)]
+
+
+def surrounded_by_quotes_phrases2(tweet_content):
+
+    quoted_words = 0
+    tot = 0
+
+    for i in range(1,len(tweet_content)-2):
+        if is_wellformed(tweet_content[i]) and is_wellformed(tweet_content[i+1]):
+            tot += 1
+            if tweet_content[i-1] == '"' and tweet_content[i+2] == '"':
+                quoted_words += 1
+
+    if tot == 0:
+        val = 0
+    else:
+        val = float(quoted_words)/tot
+
+    return [Feature("num_quoted_phrase2", quoted_words)]
+
+"""
+def longest_rep(tweet_content):
+
+    longest = 0
+    for each_word in tweet_content:
+        for i in range(len(each_word)):
+"""
+
+
+
 
 def combine_features(tweet_content):
 
     f_list = []
 
-    f_list += num_capital(tweet_content)
+    tweet_content_sans_stop =  [x for x in tweet_content if x not in stopwords.words('english')]
+
+
+    f_list += num_capital(tweet_content_sans_stop)
     f_list += add_bigrams(tweet_content)
     f_list += add_trigrams(tweet_content)
     f_list += is_retweet(tweet_content)
@@ -150,6 +254,10 @@ def combine_features(tweet_content):
     f_list += cf_terms(tweet_content)
     f_list += slang_word(tweet_content)
     f_list += has_words(tweet_content)
+    #f_list += surrounded_by_quotes(tweet_content)
+    f_list += skip_2grams(tweet_content,2)
+    f_list += words(tweet_content_sans_stop)
+    #f_list += surrounded_by_quotes_phrases2(tweet_content)
 
     return f_list
 

@@ -42,7 +42,7 @@ def train_vw(training_file):
     os.system(command)
     command = "rm model.vw"
     os.system(command)
-    command = path_to_vw + ' -d' + training_file + ' -c --passes=10 -b 25 -f model.vw --ignore i'
+    command = path_to_vw + ' -d' + training_file + ' --holdout_off -c -passes=10 -b 28 -f model.vw --ignore i'
     os.system(command)
 
 def test_vw(test_file):
@@ -55,7 +55,7 @@ def test_vw(test_file):
     os.system(command)
 
 
-def map_predictions(test_tweet_list, threshold):
+def map_predictions(test_tweet_list, threshold = 2):
     """
     Create human-readable predictions output file
     :param test_tweet_list:
@@ -85,7 +85,7 @@ def map_predictions(test_tweet_list, threshold):
         l1.append(val)
         l2.append(pred)
 
-    correl = numpy.corrcoef(l1,l2)
+    correl = numpy.corrcoef(l1, l2)
     print correl
 
     pred_file.close()
