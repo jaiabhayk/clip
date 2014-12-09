@@ -120,7 +120,7 @@ def slang_word(tweet_content):
 
 
 def has_words(tweet_content):
-    word_list = ['irony', 'sarcasm','literally','definitely',"so to speak"]
+    word_list = ['irony', 'sarcasm', 'literally', 'definitely', 'lol', 'lmao', 'lmfao', 'jk', 'proverbial', 'virtually', 'funny']#,"so to speak"]
 
     val = {}
     f_list  =[]
