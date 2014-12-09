@@ -5,7 +5,7 @@ from vw_interface import *
 from tweet import *
 from collections import Counter
 
-debug = False
+debug = True
 
 def populate_senti_word_dict(filename):
     """
@@ -40,12 +40,23 @@ def getSentiScoreFeatures(tweet_content):
         # TODO don't consider stop words or a, as the etc ??
         # TODO use the lemma or stemmed word for score ??
         # first clean/normalize the words (ex:- you're etc)
+        #TODO Apply on bigram as well or rather apply on phrases
         if key not in senti_word_dict:
             if debug:print 'No corresponding score found in the dictionary, skipping key=' , key
             continue
         if debug:print '\nkey=', key, ':score=', senti_word_dict[key]
-        scores[key] += senti_word_dict[key]
-        scores['total_senti_score'] += senti_word_dict[key]
+        score = senti_word_dict[key]
+        if (score >0.1):
+#             scores['total_max_pos_senti_score'] += score
+            if (score not in scores) or (score > scores['max_pos_senti_score']):
+                scores['max_pos_senti_score'] = score
+        elif score<-0.1:
+#             scores['total_max__neg_senti_score']=score
+            if (score not in scores) or (score < scores['max_neg_senti_score']):
+                scores['max_neg_senti_score'] = score
+            
+#         scores[key] += score
+#         scores['total_senti_score'] += score
      
     if debug:print '\n All senti-word scores:- \n', scores
     for tag in scores:
