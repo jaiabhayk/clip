@@ -4,6 +4,8 @@ Mixed bag of features
 """
 
 from tweet import *
+import nltk
+from nltk.corpus import stopwords
 
 def num_capital(tweet_content):
 
@@ -24,6 +26,7 @@ def num_capital(tweet_content):
 
 
 def words(tweet_content):
+
 
     f_list = []
     bi_dict = {}
@@ -224,13 +227,25 @@ def surrounded_by_quotes_phrases2(tweet_content):
 
     return [Feature("num_quoted_phrase2", quoted_words)]
 
+"""
+def longest_rep(tweet_content):
+
+    longest = 0
+    for each_word in tweet_content:
+        for i in range(len(each_word)):
+"""
+
+
 
 
 def combine_features(tweet_content):
 
     f_list = []
 
-    f_list += num_capital(tweet_content)
+    tweet_content_sans_stop =  [x for x in tweet_content if x not in stopwords.words('english')]
+
+
+    f_list += num_capital(tweet_content_sans_stop)
     f_list += add_bigrams(tweet_content)
     f_list += add_trigrams(tweet_content)
     f_list += is_retweet(tweet_content)
@@ -241,7 +256,7 @@ def combine_features(tweet_content):
     f_list += has_words(tweet_content)
     #f_list += surrounded_by_quotes(tweet_content)
     f_list += skip_2grams(tweet_content,2)
-    f_list += words(tweet_content)
+    f_list += words(tweet_content_sans_stop)
     #f_list += surrounded_by_quotes_phrases2(tweet_content)
 
     return f_list
