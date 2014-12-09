@@ -195,7 +195,7 @@ def surrounded_by_quotes(tweet_content):
     for i in range(1,len(tweet_content)-1):
         if is_wellformed(tweet_content[i]):
             tot += 1
-            if tweet_content[i-1] == '"' and tweet_content[i-1] == '"':
+            if tweet_content[i-1] == '"' and tweet_content[i+1] == '"':
                 quoted_words += 1
 
     if tot == 0:
@@ -203,7 +203,26 @@ def surrounded_by_quotes(tweet_content):
     else:
         val = float(quoted_words)/tot
 
-    return [Feature("num_quoted_words", val)]
+    return [Feature("num_quoted_words", quoted_words)]
+
+
+def surrounded_by_quotes_phrases2(tweet_content):
+
+    quoted_words = 0
+    tot = 0
+
+    for i in range(1,len(tweet_content)-2):
+        if is_wellformed(tweet_content[i]) and is_wellformed(tweet_content[i+1]):
+            tot += 1
+            if tweet_content[i-1] == '"' and tweet_content[i+2] == '"':
+                quoted_words += 1
+
+    if tot == 0:
+        val = 0
+    else:
+        val = float(quoted_words)/tot
+
+    return [Feature("num_quoted_phrase2", quoted_words)]
 
 
 
@@ -220,9 +239,10 @@ def combine_features(tweet_content):
     f_list += cf_terms(tweet_content)
     f_list += slang_word(tweet_content)
     f_list += has_words(tweet_content)
-    f_list += surrounded_by_quotes(tweet_content)
+    #f_list += surrounded_by_quotes(tweet_content)
     f_list += skip_2grams(tweet_content,2)
     f_list += words(tweet_content)
+    #f_list += surrounded_by_quotes_phrases2(tweet_content)
 
     return f_list
 
