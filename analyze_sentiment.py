@@ -48,7 +48,7 @@ def read_tweets(filename):
         tokenize_text = values[0].split(' ');
         score = scores[text]
         posTag = PosTag(values[1].split(),values[2].split())
-        tweet_list.append(Tweet(id, text, tokenize_text, score, posTag))
+        tweet_list.append(Tweet(id, text, tokenize_text, score, None, posTag))
     f.close()
     return tweet_list
 
