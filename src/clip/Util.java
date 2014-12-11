@@ -39,7 +39,7 @@ public class Util {
 		String test = pathPrefix + "/" + "TrialSet.txt";
 		;
 		String destTrain = pathPrefix + "/" + "TrainingSetCleaned.txt";
-		String destTest = pathPrefix + "/" + "TrialSetCleaned.txt";
+		String destTest = pathPrefix + "/" + "TrialSetCleaned.positive";
 		String infoFile = pathPrefix + "/" + "cleaningInfoFile.txt";
 
 /*		String info = removeDuplicates(train, test, destTrain, destTest);
@@ -49,7 +49,7 @@ public class Util {
 		fileWriter.flush();
 		fileWriter.close();*/
 		
-		convdertAndWriteForPosTagger(destTrain);
+/*		convdertAndWriteForPosTagger(destTrain);*/
 		convdertAndWriteForPosTagger(destTest);
 		
 	}
