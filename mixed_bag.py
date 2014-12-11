@@ -235,6 +235,18 @@ def longest_rep(tweet_content):
         for i in range(len(each_word)):
 """
 
+def percent_capitalized(tweet_content):
+    tot = 0
+    cap = 0
+
+    for each_word in tweet_content:
+        for each_char in each_word:
+            tot += 1
+            if each_char.isupper():
+                cap += 1
+    percent = float(cap)/float(tot)
+
+    return [Feature("percentage_capitalized", percent)]
 
 
 
@@ -258,6 +270,9 @@ def combine_features(tweet_content):
     f_list += skip_2grams(tweet_content,2)
     f_list += words(tweet_content_sans_stop)
     #f_list += surrounded_by_quotes_phrases2(tweet_content)
+    #f_list += percent_capitalized(tweet_content_sans_stop)
+
+    #f_list.append(Feature("num_words_meaning"))
 
     return f_list
 
