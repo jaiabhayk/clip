@@ -137,6 +137,10 @@ def main(argv):
 
 
 if __name__ == "__main__":
+    command = "rm *.cache"
+    os.system(command)
+    command = "rm TestSet.vw TrainingSet.vw model.vw model.vw predictions.vw"
+    os.system(command)
     if len(sys.argv) == 1:
         print 'No Arguments passed, using default'
         main(['DataCopy1/TrainingSetCleaned.txt', 'DataCopy1/TrialSetCleaned.txt'])
