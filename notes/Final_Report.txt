@@ -20,3 +20,5 @@ Least Squares and L1
 
 
 Results and Error analysis
+Average loss on train set and test set
+Average loss for positive scored tweets and average loss for negative scored tweets separately.
