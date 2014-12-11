@@ -10,13 +10,13 @@ class Tweet:
 
         self.id = id
         if '\t' in content:
-            print 'Unexpected tweet',content
+            print 'Unexpected tweet', content
             sys.exit()
         self.content = content
         self.tokenized = tokenized
         self.score = score
         self.featureList = featureList
-        self.posTags = posTags;
+        self.posTags = posTags
 
 
 class Feature:
