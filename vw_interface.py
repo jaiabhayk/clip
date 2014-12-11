@@ -42,7 +42,7 @@ def train_vw(training_file):
     os.system(command)
     command = "rm model.vw"
     os.system(command)
-    command = path_to_vw + ' -d' + training_file + ' --holdout_off -c -passes=10 -b 5 -f model.vw --ignore i'
+    command = path_to_vw + ' -d' + training_file + ' --holdout_off -c -passes=10 -b 25 -f model.vw --ignore i'
     os.system(command)
 
 def test_vw(test_file):
