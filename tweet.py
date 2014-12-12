@@ -1,11 +1,18 @@
 import sys
 
+debug = False
+def normalize_tweet_token(token, posTag):
+    if posTag in {'U', '@', 'D','$'}:
+        return ''.join(['<', posTag,'>'])
+    else:
+        return token
+    
 class Tweet:
     """
     This object is used to store the tweets.
     featureList contains a list of objects of Feature class
     """
-
+        
     def __init__(self, id=None, content=None, tokenized=None, score=0, featureList=None, posTags=None):
 
         self.id = id
@@ -13,10 +20,19 @@ class Tweet:
             print 'Unexpected tweet', content
             sys.exit()
         self.content = content
-        self.tokenized = tokenized
+        tokenized_normalized = []
+        for i in range(len(tokenized)):
+            if debug:print 'token=', tokenized[i], 'tag=',posTags.name[i]
+            tokenized_normalized.append(normalize_tweet_token(tokenized[i],posTags.name[i]))
+        if debug:print 'tokenized_normalized=',tokenized_normalized
+        
+        self.tokenized = tokenized_normalized
         self.score = score
         self.featureList = featureList
         self.posTags = posTags
+
+        
+        
 
 
 class Feature:

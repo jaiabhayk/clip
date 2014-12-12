@@ -39,7 +39,7 @@ public class Util {
 		String test = pathPrefix + "/" + "TrialSet.txt";
 		;
 		String destTrain = pathPrefix + "/" + "TrainingSetCleaned.txt";
-		String destTest = pathPrefix + "/" + "TrialSetCleaned.positive";
+		String destTest = pathPrefix + "/" + "TrialSetCleaned.negative";
 		String infoFile = pathPrefix + "/" + "cleaningInfoFile.txt";
 
 /*		String info = removeDuplicates(train, test, destTrain, destTest);

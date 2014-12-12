@@ -38,21 +38,26 @@ def getSentiScoreFeatures(tweet):
     f_list = []
     scores = Counter()
     no_of_sentences = 0
-    sent_score_count = 0
     
-    phrases = ['as_long_as_', '_as_long_as_', 'like_the_', '_like_the_', 'so_to_speak_', 
-               '_so_to_speak', '_so_to_speak_', 'so_', '_so_', '_since_', '_more_and_more_', '_more_than_'
-               , '_all_of_a_sudden_','all_of_a_sudden_',]
+    
+#     phrases = ['as_long_as_', '_as_long_as_', 'like_the_', '_like_the_', 'so_to_speak_', 
+#                '_so_to_speak', '_so_to_speak_', 'so_', '_so_', '_since_', '_more_and_more_', '_more_than_'
+#                , '_all_of_a_sudden_','all_of_a_sudden_',]
+    
+
     
     phrases_sentences_map = {};
     tokenized_content = ('_'.join(tweet.tokenized)).lower()
     if debug:print tokenized_content
     phrase_found = 'sentence'
-    for phrase in phrases:
-        if phrase in tokenized_content:
-            phrase_found = phrase
-            break
-    if debug:print 'phrase found:-', phrase_found,'\n'
+#     for phrase in phrases:
+#         if phrase in tokenized_content:
+#             phrase_found = phrase
+#             break
+#     if debug:print 'phrase found:-', phrase_found,'\n'
+    
+    total_senti_score = 0
+    sent_score_count = 0
     
     for i in range(len(tweet.tokenized)):
         pos = (tweet.posTags.name[i]).lower()
@@ -78,19 +83,32 @@ def getSentiScoreFeatures(tweet):
             continue
 #         if debug:print '\nkey=', key, ':score=', senti_word_dict[key]
         score = senti_word_dict[key]
-        sent_score_count+=score
+        
 
-#         if (score >0):
-#             scores['total_pos_senti_score'] += score
-# #             if (score not in scores) or (score > scores['max_pos_senti_score']):
-# #                 scores['max_pos_senti_score'] = score
-#         elif score<0:
-#             scores['total_neg_senti_score']+=score
-# #             if (score not in scores) or (score < scores['max_neg_senti_score']):
-# #                 scores['max_neg_senti_score'] = score
-#             
+        if (score >0):
+            scores['total_pos_senti_score'] += 1
+#             if (score not in scores) or (score > scores['max_pos_senti_score']):
+#                 scores['max_pos_senti_score'] = score
+        elif score<0:
+            scores['total_neg_senti_score']+=1
+#             if (score not in scores) or (score < scores['max_neg_senti_score']):
+#                 scores['max_neg_senti_score'] = score
+
+        sent_score_count+=score     
 #         scores[key] = score
-#         scores['total_senti_score'] += score
+        total_senti_score += score
+        
+    tweet_tokenized_lower = []
+    for t in tweet.tokenized:
+        tweet_tokenized_lower.append(t.lower())
+        
+    speial_hashtags = ['#sarcasm', '#not']   
+    for speial_hashtag in speial_hashtags:
+        if speial_hashtag in tweet_tokenized_lower:
+            if debug:print 'found special hash tag flip the tweet score-', speial_hashtag, tweet.score
+            total_senti_score = -1*total_senti_score
+            break
+    scores['total_senti_score'] += total_senti_score
 
 
      
