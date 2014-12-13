@@ -110,7 +110,7 @@ def is_retweet(tweet_content):
 def num_at_mentions(tweet_content):
     val = 0
     for each_token in tweet_content:
-        if each_token[0] == '@':
+        if each_token == '<@>':
             val += 1
 
     return [Feature("num_at_mentions", val)]
@@ -163,7 +163,8 @@ def cf_terms(tweet_content):
 def slang_word(tweet_content):
 
 
-    slang_list = ['fuck', 'fucking', 'fucks', 'fucked', 'shit', 'bitch', 'bitches']
+    slang_list = ['fuck', 'fucking', 'fucking', 'fuckup', 'fucken', 'fucks', 'fucked', 'motherfucker', 'motherfuckers',
+                  'motherfucking', 'shit', 'bitch', 'bitches']
     count = 0
     for each_word in tweet_content:
         if each_word.lower() in slang_list :
@@ -262,7 +263,7 @@ def combine_features(tweet_content):
     f_list += add_trigrams(tweet_content)
     f_list += is_retweet(tweet_content)
     f_list += num_at_mentions(tweet_content)
-    #f_list += character_n_grams(tweet_content)
+    #f_list += character_n_grams(tweet_content_sans_stop)
     f_list += cf_terms(tweet_content)
     f_list += slang_word(tweet_content)
     f_list += has_words(tweet_content)

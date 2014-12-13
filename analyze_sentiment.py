@@ -11,6 +11,8 @@ from tweet import *
 from abhay_features import *
 from rashmi_features import *
 from yogarshi_features import *
+from nltk.stem.wordnet import WordNetLemmatizer
+from nltk.stem import PorterStemmer
 
 
 def read_tweets(filename):
@@ -20,13 +22,15 @@ def read_tweets(filename):
     :return:
     """
     tweet_list = list()
-    
+    lemmatizer = WordNetLemmatizer()
+    stemmer = PorterStemmer()
+
     f = open(filename, 'r')
     ids = {};
     scores = {};
     
     for line in f.readlines():
-        values = line.split("\t");
+        values = line.split("\t")
         if len(values) > 3:
             print 'Unexpected tweet'
             sys.exit()
@@ -35,20 +39,28 @@ def read_tweets(filename):
     f.close()
     
     #filename.posTagged is the file after running posTagger
-    filename_posTagged = ''.join([filename,'.posTagged']);
+    filename_posTagged = ''.join([filename,'.posTagged'])
     f = open(filename_posTagged, 'r')
     for line in f.readlines():
-        values = line.split("\t");
+        values = line.split("\t")
         if len(values) != 4:
             print 'Unexpected tweet'
             sys.exit()
         
         text = values[3]
         id = ids[text]
-        tokenize_text = values[0].split(' ');
+        tokenize_text = values[0].split(' ')
+        """
+        try:
+            lemmatize_text = [lemmatizer.lemmatize(x) for x in tokenize_text]
+            lemmatize_text = [lemmatizer.lemmatize(x) for x in tokenize_text]
+        except UnicodeDecodeError:
+            lemmatize_text = tokenize_text
+        """
+
         score = scores[text]
         posTag = PosTag(values[1].split(),values[2].split())
-        tweet_list.append(Tweet(id, text, tokenize_text, score, None, posTag))
+        tweet_list.append(Tweet(id, text, tokenize_text, score, [], posTag))
     f.close()
     return tweet_list
 
@@ -115,6 +127,13 @@ def main(argv):
     #start_time = time.time()
 
     print "#############################"
+    print "Doing Kfold Cross validation"
+    print "#############################"
+    print
+    k_fold(training_tweet_list, 10)
+
+
+    print "#############################"
     print "Starting training...."
     print "#############################"
     print
@@ -133,7 +152,8 @@ def main(argv):
     print "Generating Predictions.txt for error analysis..."
     print "#############################"
     print
-    map_predictions(test_tweet_list, 0.1)
+    map_predictions(test_tweet_list, 3)
+
 
 
 if __name__ == "__main__":
@@ -141,6 +161,8 @@ if __name__ == "__main__":
     os.system(command)
     command = "rm TestSet.vw TrainingSet.vw model.vw model.vw predictions.vw"
     os.system(command)
+
+
     if len(sys.argv) == 1:
         print 'No Arguments passed, using default'
         main(['DataCopy1/TrainingSetCleaned.txt', 'DataCopy1/TrialSetCleaned.txt'])

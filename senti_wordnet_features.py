@@ -5,7 +5,9 @@ from vw_interface import *
 from tweet import *
 from collections import Counter
 from nltk.stem.porter import *
+from nltk.stem.wordnet import WordNetLemmatizer
 stemmer = PorterStemmer()
+lemmatizer = WordNetLemmatizer()
 
 debug = False
 
@@ -32,6 +34,7 @@ def populate_senti_word_dict(filename):
     return words
 
 senti_word_dict = populate_senti_word_dict('senti_wordnet_dictionary.txt')
+
 
 def getSentiScoreFeatures(tweet):
     if debug:print '\ntweet\n', ' '.join(tweet.tokenized), '\n'
@@ -62,7 +65,8 @@ def getSentiScoreFeatures(tweet):
     for i in range(len(tweet.tokenized)):
         pos = (tweet.posTags.name[i]).lower()
         token = (tweet.tokenized[i]).lower()
-        token = stemmer.stem(token.decode('utf-8')).encode('utf-8')
+        #token = stemmer.stem(token.decode('utf-8')).encode('utf-8')
+        token = lemmatizer.lemmatize(token.decode('utf-8')).encode('utf-8')
         key = ''.join([token, "#", pos])
         # TODO don't consider stop words or a, as the etc ??
         # TODO use the lemma or stemmed word for score ??
