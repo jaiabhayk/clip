@@ -183,7 +183,9 @@ public class Tweet {
 
 	public static Tweet mergeTweets(Tweet trainTweet, Tweet testTweet) {
 		Tweet t = new Tweet(trainTweet);
-		t.setNewScore(testTweet.getOldScore());
+		float score = (testTweet.getOldScore() + trainTweet.getOldScore())/2;
+		t.setOldScore(score);
+		t.setNewScore(score);
 		return t;
 	}
 

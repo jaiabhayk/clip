@@ -39,25 +39,25 @@ public class Util {
 		String test = pathPrefix + "/" + "TrialSet.txt";
 		;
 		String destTrain = pathPrefix + "/" + "TrainingSetCleaned.txt";
-		String destTest = pathPrefix + "/" + "TrialSetCleaned.negative";
+		String destTest = pathPrefix + "/" + "TrialSetCleaned.txt";
 		String infoFile = pathPrefix + "/" + "cleaningInfoFile.txt";
 
-/*		String info = removeDuplicates(train, test, destTrain, destTest);
+		String info = removeDuplicates(train, test, destTrain, destTest);
 		File file1 = new File(infoFile);
 		FileWriter fileWriter = new FileWriter(file1);
 		fileWriter.write(info);
 		fileWriter.flush();
-		fileWriter.close();*/
+		fileWriter.close();
 		
-/*		convdertAndWriteForPosTagger(destTrain);*/
-		convdertAndWriteForPosTagger(destTest);
+		convdertAndWriteRawTweets(destTrain);
+		convdertAndWriteRawTweets(destTest);
 		
 	}
     
 	//Writes in a format which pos tagger can understand
 	//output file name is fileName.posTagger.tmp
-	private static void convdertAndWriteForPosTagger(String source) throws Exception {
-		String destFile = source +".posTagger.tmp";
+	private static void convdertAndWriteRawTweets(String source) throws Exception {
+		String destFile = source +".rawTweets";
 		File file = new File(source);
 		FileReader fileReader = new FileReader(file);
 		StringBuilder sb = new StringBuilder();
@@ -119,8 +119,8 @@ public class Util {
 					duplicates++;
 
 					Tweet t = Tweet.mergeTweets(trainTweet, testTweet);
-					if ((trainTweet.getOldScore() - testTweet.getOldScore()) > 0.2 
-							|| (trainTweet.getOldScore() - testTweet.getOldScore()) < -0.2) {
+					if ((trainTweet.getOldScore() - testTweet.getOldScore()) >1 
+							|| (trainTweet.getOldScore() - testTweet.getOldScore()) < -1) {
 						sb.append("Score mismatch between testTweet and trainTweet:- "
 								+ testTweet.getOldScore()
 								+ "/"
@@ -142,7 +142,7 @@ public class Util {
 			fileReader.close();
 		}
 		
-		Random randomGenerator = new Random();
+/*		Random randomGenerator = new Random();
 		HashSet s = new HashSet<Integer>();
 	    while (true) {
 	      int randomInt = randomGenerator.nextInt(trainTweets.size()+1);
@@ -168,7 +168,7 @@ public class Util {
 	    	testTweets.put(key, val);
 	    	//sb.append("\n val:-" + val + "\n");
 	    	
-	    }
+	    }*/
 	    
 		sb.append("no of duplicates found:- " + duplicates + "\n");
 		sb.append("no of duplicates with score mismatch found:- "

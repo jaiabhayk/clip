@@ -40,6 +40,26 @@ def read_tweets(filename):
     
     #filename.posTagged is the file after running posTagger
     filename_posTagged = ''.join([filename,'.posTagged'])
+    #TODO optimize create only when the tagged file is not alredy present
+    raw_tweet_file = ''.join([filename,'.rawTweets'])
+    
+    command =  ''.join(['sh ark-tweet-nlp-0.3.2/runTagger.sh ',  raw_tweet_file, '  > ',  filename_posTagged])
+    
+    DataDir = filename.split('/') ;
+    if len(DataDir) ==1: 
+        DataDir = './'
+    else:
+        DataDir = DataDir[len(DataDir)-2]
+  
+    if filename_posTagged.split('/')[-1] in os.listdir(DataDir):
+        print 'File ', filename_posTagged.split()[-1] , 'Already Present, Skipping Recreation....' 
+    else:
+        print 'File ', filename_posTagged.split()[-1] , 'Not Present, Creating it....'       
+        if (os.system(command) !=0):
+            print 'Error while running the command, ',  command
+            sys.exit()
+    
+    
     f = open(filename_posTagged, 'r')
     for line in f.readlines():
         values = line.split("\t")
