@@ -5858,7 +5858,7 @@
 9	"	_	,	,	_	-1	_
 10	hitters	_	N	N	_	7	_
 11	"	_	,	,	_	-1	_
-12	out	_	T	T	_	-1	_
+12	out	_	T	T	_	0	_
 13	behind	_	P	P	_	12	_
 14	the	_	D	D	_	16	_
 15	proverbial	_	A	A	_	16	_

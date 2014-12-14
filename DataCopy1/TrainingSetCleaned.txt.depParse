@@ -35726,7 +35726,7 @@
 2	@emily_sara_14	_	@	@	_	-1	_
 3	:	_	~	~	_	-1	_
 4	Yea	_	!	!	_	0	_
-5	up	_	T	T	_	-1	_
+5	up	_	T	T	_	0	_
 6	the	_	D	D	_	7	_
 7	EZpass	_	^	^	_	5	_
 8	on	_	P	P	_	7	_
@@ -41694,7 +41694,7 @@
 15	At	_	P	P	_	9	_
 16	least	_	A	A	_	15	MWE
 17	the	_	D	D	_	18	_
-18	one's	_	S	S	_	-1	_
+18	one's	_	S	S	_	0	_
 19	I've	_	L	L	_	0	_
 20	come	_	V	V	_	19	_
 21	in	_	P	P	_	20	_
@@ -48105,7 +48105,7 @@
 14	instagram.com/p/omn-PIm4Yx/	_	U	U	_	-1	_
 
 1	@Camjackson101	_	@	@	_	-1	_
-2	up	_	T	T	_	-1	_
+2	up	_	T	T	_	0	_
 3	to	_	P	P	_	2	_
 4	88	_	$	$	_	5	_
 5	followers	_	N	N	_	3	_
@@ -90064,7 +90064,7 @@
 25	The	_	D	D	_	26	_
 26	human	_	N	N	_	0	_
 
-1	Up	_	T	T	_	-1	_
+1	Up	_	T	T	_	0	_
 2	to	_	P	P	_	1	_
 3	nw	_	V	V	_	2	_
 4	I	_	O	O	_	5	_
@@ -106587,7 +106587,7 @@
 7	...	_	,	,	_	-1	_
 8	#not	_	#	#	_	-1	_
 9	all	_	D	D	_	13	_
-10	up	_	T	T	_	-1	_
+10	up	_	T	T	_	0	_
 11	in	_	P	P	_	10	_
 12	the	_	D	D	_	14	_
 13	#GOTY	_	N	N	_	14	_
@@ -136485,7 +136485,7 @@
 13	#sarcasm	_	#	#	_	-1	_
 
 1	Yea	_	!	!	_	0	_
-2	up	_	T	T	_	-1	_
+2	up	_	T	T	_	0	_
 3	the	_	D	D	_	4	_
 4	EZpass	_	^	^	_	2	_
 5	on	_	P	P	_	4	_
