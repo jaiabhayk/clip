@@ -50,7 +50,7 @@ def write_to_file(tweet_list, out_file):
                 f.write(':')
                 f.write(str(each_feature.value))
                 f.write(' ')
-            f.write(' | ')
+            f.write('| ')
             f.write('i ')
             f.write(each_tweet.featureList[-1].name)
             f.write(':')
@@ -109,12 +109,14 @@ def map_predictions(test_tweet_list, threshold = 2):
     l1 = []
     l2 = []
 
+    count = 0
     pred_file = open("predictions.vw", 'r')
     out_file = open("Predic2tions.txt", 'w')
     for each_tweet in test_tweet_list:
         pred = float(pred_file.readline().strip())
         val = float(each_tweet.score)
         if abs(pred-val) > threshold:
+            count += 1
             out_file.write(str(each_tweet.id))
             out_file.write('\n')
             out_file.write(each_tweet.content)
@@ -131,6 +133,7 @@ def map_predictions(test_tweet_list, threshold = 2):
 
     correl = numpy.corrcoef(l1, l2)
     print correl
+    print count
 
     pred_file.close()
     out_file.close()

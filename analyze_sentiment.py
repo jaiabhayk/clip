@@ -40,8 +40,13 @@ def read_tweets(filename):
     
     #filename.posTagged is the file after running posTagger
     filename_posTagged = ''.join([filename,'.posTagged'])
-    #TODO optimize create only when the tagged file is not alredy present
     raw_tweet_file = ''.join([filename,'.rawTweets'])
+
+    #Also read the dependency parse from filename.depParse
+    filename_depParsed = ''.join([filename,'.depParse'])
+
+    ###TODO: Dep parse file has all the information you need. Can delete stuff where we read pos tagged file
+    ###TODO: and get tags from dep parse
     
     command =  ''.join(['sh ark-tweet-nlp-0.3.2/runTagger.sh ',  raw_tweet_file, '  > ',  filename_posTagged])
     
@@ -61,6 +66,7 @@ def read_tweets(filename):
     
     
     f = open(filename_posTagged, 'r')
+    f_prime = open(filename_depParsed, 'r')
     for line in f.readlines():
         values = line.split("\t")
         if len(values) != 4:
@@ -70,18 +76,25 @@ def read_tweets(filename):
         text = values[3]
         id = ids[text]
         tokenize_text = values[0].split(' ')
-        """
+
         try:
             lemmatize_text = [lemmatizer.lemmatize(x) for x in tokenize_text]
             lemmatize_text = [lemmatizer.lemmatize(x) for x in tokenize_text]
         except UnicodeDecodeError:
             lemmatize_text = tokenize_text
-        """
+
+        dep_parse = []
+        for x in range(len(tokenize_text)):
+            dep_parse.append(f_prime.readline().strip().split())
+        f_prime.readline()
+        #print dep_parse
 
         score = scores[text]
         posTag = PosTag(values[1].split(),values[2].split())
-        tweet_list.append(Tweet(id, text, tokenize_text, score, [], posTag))
+        tweet_list.append(Tweet(id, text, tokenize_text, lemmatize_text, dep_parse, round(float(score),2), [], posTag))
     f.close()
+    f_prime.close()
+
     return tweet_list
 
 
@@ -172,7 +185,7 @@ def main(argv):
     print "Generating Predictions.txt for error analysis..."
     print "#############################"
     print
-    map_predictions(test_tweet_list, 3)
+    map_predictions(test_tweet_list, 1)
 
 
 

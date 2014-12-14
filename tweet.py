@@ -2,7 +2,7 @@ import sys
 
 debug = False
 def normalize_tweet_token(token, posTag):
-    if posTag in {'U', '@', 'D','$'}:
+    if posTag in {'U', '@', 'D','$', 'U'}:
         return ''.join(['<', posTag,'>'])
     else:
         return token
@@ -13,7 +13,8 @@ class Tweet:
     featureList contains a list of objects of Feature class
     """
         
-    def __init__(self, id=None, content=None, tokenized=None, score=0, featureList=None, posTags=None):
+    def __init__(self, id=None, content=None, tokenized=None, lemmatized=None, dep_parse = None,
+                 score=None, featureList=None, posTags=None):
 
         self.id = id
         if '\t' in content:
@@ -27,6 +28,8 @@ class Tweet:
         if debug:print 'tokenized_normalized=',tokenized_normalized
         
         self.tokenized = tokenized_normalized
+        self.lemmatized = lemmatized
+        self.dep_parse = dep_parse
         self.score = score
         self.featureList = featureList
         self.posTags = posTags
