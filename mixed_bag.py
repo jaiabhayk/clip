@@ -7,6 +7,38 @@ from tweet import *
 import nltk
 from nltk.corpus import stopwords
 
+def cons_char(word):
+    max_cons = 0
+    prev = word[0]
+    curr = 1
+    for each_letter in word[1:]:
+        if each_letter == prev:
+            curr += 1
+        else:
+            if curr > max_cons:
+                max_cons = curr
+            prev = each_letter
+
+    if curr > max_cons:
+        max_cons = curr
+    return max_cons
+
+def longest_sequence_of_characters(tweet_content):
+
+    f_list = []
+    max = 1
+    for each_word in tweet_content:
+        curr =  cons_char(each_word)
+        if curr > max:
+            max = curr
+
+    if max <=2:
+        max = 0
+    f_list += [Feature("repeated_chars", max)]
+    return f_list
+
+
+
 def num_capital(tweet_content):
 
     val = 0
@@ -23,6 +55,8 @@ def num_capital(tweet_content):
         out = float(val)/float(tot)
 
     return [Feature("num_capital", out)]
+
+
 
 
 def words(tweet_content):
@@ -115,6 +149,15 @@ def num_at_mentions(tweet_content):
 
     return [Feature("num_at_mentions", val)]
 
+
+def num_urls(tweet_content):
+    val = 0
+    for each_token in tweet_content:
+        if each_token == '<U>':
+            val += 1
+
+    return [Feature("num_URLs", val)]
+
 def get_n_grams(word,n):
     n_grams = {}
     for i in range(len(word)-(n-1)):
@@ -146,16 +189,30 @@ def cf_terms(tweet_content):
                'non', 'nonetheless', 'not', 'notwithstanding', 'now', 'only', 'roughly', 'simply', 'so', 'some',
                'still', 'then', 'thence', 'therefore', 'though', 'thus', 'virtually', 'well-nigh', 'withal', 'yet']
 
+    tc_list = ['abruptly', 'impromptu', 'later', 'now', 'out of the blue', 'recently', 'shortly', 'yesterday', 'since',
+               'soon', 'sudden', 'suddenly', 'tomorrow', 'whenever']
+
     val = {}
+    val2 = {}
     f_list  =[]
+    tot = 0
     for each_word in tweet_content:
         if each_word.lower() in cf_list:
             if each_word.lower() not in val:
                 val[each_word.lower()] = 0
             val[each_word.lower()] += 1
+        if each_word.lower() in tc_list:
+            if each_word.lower() not in val2:
+                val2[each_word.lower()] = 0
+            val2[each_word.lower()] += 1
 
     for each_word in val:
-        f_list.append(Feature(each_word, val[each_word]))
+        f_list.append(Feature("cf_"+each_word, val[each_word]))
+
+    for each_word in val2:
+        f_list.append(Feature("tc_"+each_word, val2[each_word]))
+
+    #f_list += [Feature("counterfact_terms",tot)]
 
     return f_list
 
@@ -174,8 +231,7 @@ def slang_word(tweet_content):
 
 
 def has_words(tweet_content):
-    word_list = ['irony', 'sarcasm', 'literally', 'definitely', 'lol', 'lmao', 'lmfao', 'jk', 'proverbial', 'virtually',
-                 'funny']#,"so to speak"]
+    word_list = [ 'literally', 'definitely', 'proverbial', 'virtually']#,"so to speak"]
 
     val = {}
     f_list  =[]
@@ -186,7 +242,24 @@ def has_words(tweet_content):
             val[each_word.lower()] += 1
 
     for each_word in val:
-        f_list.append(Feature(each_word, val[each_word]))
+        f_list.append(Feature("markwords_"+each_word, val[each_word]))
+
+    return  f_list
+
+def acronyms(tweet_content):
+
+    word_list = ['lol', 'jk', 'haha', 'lmfao', 'lmao', 'lolzzzz']#,"so to speak"]
+
+    val = {}
+    f_list  =[]
+    for each_word in tweet_content:
+        if each_word.lower() in word_list:
+            if each_word.lower() not in val:
+                val[each_word.lower()] = 0
+            val[each_word.lower()] += 1
+
+    for each_word in val:
+        f_list.append(Feature("acrnoyms_"+each_word, val[each_word]))
 
     return  f_list
 
@@ -199,7 +272,8 @@ def surrounded_by_quotes(tweet_content):
     for i in range(1,len(tweet_content)-1):
         if is_wellformed(tweet_content[i]):
             tot += 1
-            if tweet_content[i-1] == '"' and tweet_content[i+1] == '"':
+            if (tweet_content[i-1] == '"' and tweet_content[i+1] == '"') or \
+                    (tweet_content[i-1] == "'" and tweet_content[i+1] == "'"):
                 quoted_words += 1
 
     if tot == 0:
@@ -218,7 +292,7 @@ def surrounded_by_quotes_phrases2(tweet_content):
     for i in range(1,len(tweet_content)-2):
         if is_wellformed(tweet_content[i]) and is_wellformed(tweet_content[i+1]):
             tot += 1
-            if tweet_content[i-1] == '"' and tweet_content[i+2] == '"':
+            if tweet_content[i-1] == '"' and tweet_content[i+2] == '"' :
                 quoted_words += 1
 
     if tot == 0:
@@ -228,13 +302,7 @@ def surrounded_by_quotes_phrases2(tweet_content):
 
     return [Feature("num_quoted_phrase2", quoted_words)]
 
-"""
-def longest_rep(tweet_content):
 
-    longest = 0
-    for each_word in tweet_content:
-        for i in range(len(each_word)):
-"""
 
 def percent_capitalized(tweet_content):
     tot = 0
@@ -255,23 +323,41 @@ def combine_features(tweet_content):
 
     f_list = []
 
-    tweet_content_sans_stop =  [x for x in tweet_content if x not in stopwords.words('english')]
+    _tweet_content_sans_stop =  [x for x in tweet_content if x not in stopwords.words('english')]
+    tweet_content_sans_stop = [x for x in tweet_content if x is not '<D>' ]
+    tweet_content_sans_hash = []
+    for each in tweet_content:
+        if each[0] == '#':
+            tweet_content_sans_hash.append(each[1:])
+        else:
+            tweet_content_sans_hash.append(each)
 
+
+    tweet_content_sans_hash_sans_stop = []
+
+    for each in tweet_content_sans_stop:
+        if each[0] == '#':
+            tweet_content_sans_hash_sans_stop.append(each[1:])
+        else:
+            tweet_content_sans_hash_sans_stop.append(each)
 
     f_list += num_capital(tweet_content_sans_stop)
-    f_list += add_bigrams(tweet_content)
-    f_list += add_trigrams(tweet_content)
+    f_list += add_bigrams(tweet_content_sans_hash)
+    f_list += add_trigrams(tweet_content_sans_hash)
     f_list += is_retweet(tweet_content)
     f_list += num_at_mentions(tweet_content)
+    #  f_list += num_urls(tweet_content)
     #f_list += character_n_grams(tweet_content_sans_stop)
     f_list += cf_terms(tweet_content)
     f_list += slang_word(tweet_content)
     f_list += has_words(tweet_content)
     #f_list += surrounded_by_quotes(tweet_content)
-    f_list += skip_2grams(tweet_content,2)
-    f_list += words(tweet_content_sans_stop)
+    f_list += skip_2grams(tweet_content_sans_hash,2)
+    f_list += words(tweet_content_sans_hash_sans_stop)
     #f_list += surrounded_by_quotes_phrases2(tweet_content)
     #f_list += percent_capitalized(tweet_content_sans_stop)
+    f_list += longest_sequence_of_characters(tweet_content)
+    f_list += acronyms(tweet_content)
 
     #f_list.append(Feature("num_words_meaning"))
 
@@ -279,5 +365,7 @@ def combine_features(tweet_content):
 
 
 
+if __name__ == "__main__":
 
+    longest_sequence_of_characters(["whaat", 'theeeee', "fuck"])
 

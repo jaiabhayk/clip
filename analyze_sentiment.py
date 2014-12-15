@@ -26,8 +26,8 @@ def read_tweets(filename):
     stemmer = PorterStemmer()
 
     f = open(filename, 'r')
-    ids = {};
-    scores = {};
+    ids = {}
+    scores = {}
     
     for line in f.readlines():
         values = line.split("\t")
@@ -35,7 +35,7 @@ def read_tweets(filename):
             print 'Unexpected tweet'
             sys.exit()
         ids[values[2] ]=values[0]
-        scores[values[2] ] = values[1]
+        scores[values[2]] = values[1]
     f.close()
     
     #filename.posTagged is the file after running posTagger
@@ -50,7 +50,7 @@ def read_tweets(filename):
     
     command =  ''.join(['sh ark-tweet-nlp-0.3.2/runTagger.sh ',  raw_tweet_file, '  > ',  filename_posTagged])
     
-    DataDir = filename.split('/') ;
+    DataDir = filename.split('/')
     if len(DataDir) ==1: 
         DataDir = './'
     else:
@@ -185,7 +185,7 @@ def main(argv):
     print "Generating Predictions.txt for error analysis..."
     print "#############################"
     print
-    map_predictions(test_tweet_list, 1)
+    map_predictions(test_tweet_list, -1)
 
 
 
