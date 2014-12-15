@@ -39,11 +39,11 @@ def root_count(tweet_depparse):
             #senti=senti_word_dict[each_token[1]+"#"+each_token[3]]
             #print score
             #f_list.append(Feature(each_token[1].lower().join("_head"),score))
-            if score>0.2:
+            if score>0.1:
                 poscount+=1
                 f_list.append(Feature(each_token[1].join("_head"),score))
                 #print "post "+each_token[1]
-            if score<-0.2:
+            if score<-0.1:
                 negcount+=1
                 f_list.append(Feature(each_token[1].join("_head"),score))
             #else: pass
