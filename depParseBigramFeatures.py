@@ -17,7 +17,7 @@ lemmatizer = WordNetLemmatizer()
 senti_word_dict = senti_wordnet_features.populate_senti_word_dict('senti_wordnet_dictionary.txt')
 tags=['n','v','a','r']
 
-debug = True
+debug = False
 def bigram_feature(tweet):
     f_list = []
     words, parents = unpack_dep_parse(tweet.dep_parse)
