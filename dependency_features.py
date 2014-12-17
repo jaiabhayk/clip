@@ -162,7 +162,7 @@ def dependency_pathdfs(tweet_depparse):
         feature_name ='-'.join(path)
         feature_name = string.replace(feature_name,':','<Colon>')
         feature_name = string.replace(feature_name,'|','<VertBar>')
-        #f_list.append(Feature(feature_name,1))
+        f_list.append(Feature(feature_name,1))
         #print '-'.join(path)
     f_list.append(Feature('allpos',countpos))
     f_list.append(Feature('allneg',countneg))
