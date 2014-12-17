@@ -88,8 +88,8 @@ def skip_2grams(tweet_content, skip_length):
     s_grams = {}
     ret_list = []
     for i in range(1, len(tweet_content)-(skip_length)):
-        if tweet_content[i].lower().isalnum() and tweet_content[i+2].lower().isalnum() \
-                and tweet_content[i-1].lower() == "about":
+        if tweet_content[i].lower().isalnum() and tweet_content[i+2].lower().isalnum():
+                #and tweet_content[i-1].lower() == "about":
             t = tweet_content[i+1].lower() #+ '_' + tweet_content[i+2]
             if t not in correct:
                 if t not in s_grams:
@@ -221,7 +221,7 @@ def slang_word(tweet_content):
 
 
     slang_list = ['fuck', 'fucking', 'fucking', 'fuckup', 'fucken', 'fucks', 'fucked', 'motherfucker', 'motherfuckers',
-                  'motherfucking', 'shit', 'bitch', 'bitches']
+                  'motherfucking', 'shit', 'bitch', 'bitches', 'asshole', 'assholes']
     count = 0
     for each_word in tweet_content:
         if each_word.lower() in slang_list :
@@ -248,7 +248,7 @@ def has_words(tweet_content):
 
 def acronyms(tweet_content):
 
-    word_list = ['lol', 'jk', 'haha', 'lmfao', 'lmao', 'lolzzzz']#,"so to speak"]
+    word_list = ['lol', 'jk', 'haha', 'lmfao', 'lmao', 'lolzzzz', ]#,"so to speak"]
 
     val = {}
     f_list  =[]
@@ -353,7 +353,7 @@ def combine_features(tweet_content):
     f_list += has_words(tweet_content)
     #f_list += surrounded_by_quotes(tweet_content)
     f_list += skip_2grams(tweet_content_sans_hash,2)
-    f_list += words(tweet_content_sans_hash_sans_stop)
+    #f_list += words(tweet_content_sans_hash_sans_stop)
     #f_list += surrounded_by_quotes_phrases2(tweet_content)
     #f_list += percent_capitalized(tweet_content_sans_stop)
     f_list += longest_sequence_of_characters(tweet_content)
