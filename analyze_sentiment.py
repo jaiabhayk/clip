@@ -156,7 +156,7 @@ def main(argv):
         if each_tweet.score >0:
             for i in range(2):new_training_tweet_list.append(each_tweet)
             
-    #training_tweet_list = new_training_tweet_list
+    training_tweet_list = new_training_tweet_list
     print 'new_training_tweet_list_size-after' , len(new_training_tweet_list)        
 
 
