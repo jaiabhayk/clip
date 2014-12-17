@@ -13,7 +13,7 @@ from rashmi_features import *
 from yogarshi_features import *
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.stem import PorterStemmer
-
+import random
 
 def read_tweets(filename):
     """
@@ -162,7 +162,9 @@ def main(argv):
     print "Doing Kfold Cross validation"
     print "#############################"
     print
-    k_fold(training_tweet_list, 10)
+    x = training_tweet_list #+ test_tweet_list
+    #random.shuffle(x, lambda : 0.5)
+    k_fold(x, 10)
 
 
     print "#############################"

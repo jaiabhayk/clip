@@ -57,8 +57,6 @@ def num_capital(tweet_content):
     return [Feature("num_capital", out)]
 
 
-
-
 def words(tweet_content):
 
 
@@ -88,7 +86,7 @@ def skip_2grams(tweet_content, skip_length):
     s_grams = {}
     ret_list = []
     for i in range(1, len(tweet_content)-(skip_length)):
-        if tweet_content[i].lower().isalnum() and tweet_content[i+2].lower().isalnum()\
+        if tweet_content[i].lower().isalnum() and tweet_content[i+2].lower().isalnum() \
                 and tweet_content[i-1].lower() == "about":
             t = tweet_content[i+1].lower() #+ '_' + tweet_content[i+2]
             if t not in correct:
@@ -248,7 +246,7 @@ def has_words(tweet_content):
 
 def acronyms(tweet_content):
 
-    word_list = ['lol', 'jk', 'haha', 'lmfao', 'lmao', 'lolzzzz', ]#,"so to speak"]
+    word_list = ['lol', 'jk', 'haha', 'lmfao', 'lmao', 'lolzzzz', 'rofl' ]#,"so to speak"]
 
     val = {}
     f_list  =[]
