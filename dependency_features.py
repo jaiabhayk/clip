@@ -109,3 +109,44 @@ def dependency_path(tweet_depparse):
             path.remove(token1[1].lower())
             score-=senti(token1[1],token1[3])
     return f_list
+   
+def dependency_pathdfs(tweet_depparse):
+    f_list=[]
+    path=[]
+    score=0
+    children_dict={}
+    leaf_list=[]
+    for token in tweet_depparse:
+        for token_child in tweet_depparse:
+            if token_child[6]==token[0]:
+                children_dict.setdefault(token[0],[]).append(token_child[0])
+            #print children_dict[token[0]]
+    for token in tweet_depparse:
+        if token[0] not in children_dict.keys():
+            leaf_list.append(token[0])
+    print leaf_list
+    print children_dict
+    
+    #for leaf in leaf_list: 
+       #print leaf
+       #print tweet_depparse[int(leaf)-1][6]
+    
+    for leaf in leaf_list:
+        path=[]
+        
+        path.append(tweet_depparse[int(leaf)-1][1])
+        parent=int(leaf)
+        #print tweet_depparse[int(leaf)-1][6]
+       
+        while int(tweet_depparse[parent-1][6])!=0 and int(tweet_depparse[parent-1][6])!=-1:
+            #print tweet_depparse[parent-1][6]
+            parent=int(tweet_depparse[parent-1][6])
+            path.append(tweet_depparse[parent-1][1])
+        feature_name ='-'.join(path)
+        feature_name = string.replace(feature_name,':','<Colon>')
+        feature_name = string.replace(feature_name,'|','<VertBar>')
+        f_list.append(Feature(feature_name,1))
+        print '-'.join(path)
+    
+    #for i in children
+    return f_list
