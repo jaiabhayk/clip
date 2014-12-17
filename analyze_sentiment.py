@@ -148,6 +148,16 @@ def main(argv):
         for each_tweet in test_tweet_list:
             each_tweet.featureList = get_features(each_tweet)
             each_tweet.featureList.append(Feature("tweet_id", each_tweet.id))
+            
+    #increase Negative tweet size in training only
+    new_training_tweet_list = list(training_tweet_list)
+    print 'new_training_tweet_list_size-before' , len(new_training_tweet_list)
+    for each_tweet in training_tweet_list:
+        if each_tweet.score >0:
+            for i in range(2):new_training_tweet_list.append(each_tweet)
+            
+    #training_tweet_list = new_training_tweet_list
+    print 'new_training_tweet_list_size-after' , len(new_training_tweet_list)        
 
 
     # Create training and testing files
