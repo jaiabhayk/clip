@@ -88,8 +88,8 @@ def skip_2grams(tweet_content, skip_length):
     s_grams = {}
     ret_list = []
     for i in range(1, len(tweet_content)-(skip_length)):
-        if tweet_content[i].lower().isalnum() and tweet_content[i+2].lower().isalnum():
-                #and tweet_content[i-1].lower() == "about":
+        if tweet_content[i].lower().isalnum() and tweet_content[i+2].lower().isalnum()\
+                and tweet_content[i-1].lower() == "about":
             t = tweet_content[i+1].lower() #+ '_' + tweet_content[i+2]
             if t not in correct:
                 if t not in s_grams:
