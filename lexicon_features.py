@@ -59,7 +59,7 @@ def combine_features(tweet):
 
     f_list = []
 
-    #f_list += emotion_occurances(tweet.lemmatized)
+    f_list += emotion_occurances(tweet.lemmatized)
 
 
     return f_list

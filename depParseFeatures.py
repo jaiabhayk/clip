@@ -127,8 +127,8 @@ def multi_sentence(sentences):
 
     emo_dicts = sent_emo_occurance(sentences)
     f_list  = []
-    neg_list = ['anger', 'disgust', 'fear', 'sadness', 'negative']
-    pos_list = ['anticipation', 'joy', 'surprise', 'trust', 'positive']
+    neg_list = ['negative']
+    pos_list = ['positive']
     pos_flag = False
     neg_flag = False
     pos_count = 0
