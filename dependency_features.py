@@ -5,7 +5,7 @@ from senti_wordnet_features import *
 from nltk.stem.porter import *
 from nltk.stem.wordnet import WordNetLemmatizer
 import string
-
+import lexicon_features
 stemmer = PorterStemmer()
 lemmatizer = WordNetLemmatizer()
 
@@ -142,11 +142,26 @@ def dependency_pathdfs(tweet_depparse):
             #print tweet_depparse[parent-1][6]
             parent=int(tweet_depparse[parent-1][6])
             path.append(tweet_depparse[parent-1][1])
+        for item in path:
+            token_word = item.lower()
+            token_lemma = lemmatizer.lemmatize(item.lower().decode('utf-8')).encode('utf-8')
+            token_stem = stemmer.stem(item.lower().decode('utf-8')).encode('utf-8')
+            if token_word not in nrc_dict: item=token_lemma
+            if item not in nrc_dict: item=token_stem
+            if item not in nrc_dict: continue
+            if lexicon_features.nrc_dict(item)==1: allpos+=1
+            if lexicon_features.nrc_dict(item)==-1: allneg+=1
+        if allpos>0 and allneg==0: countpos++
+        if allpos==0 and allneg>0: countneg++
+        if allpos>0 and allneg>0: countmix++
+            
         feature_name ='-'.join(path)
         feature_name = string.replace(feature_name,':','<Colon>')
         feature_name = string.replace(feature_name,'|','<VertBar>')
-        f_list.append(Feature(feature_name,1))
-        print '-'.join(path)
-    
+        #f_list.append(Feature(feature_name,1))
+        #print '-'.join(path)
+    f_list.append(Feature('allpos',countpos))
+    f_list.append(Feature('allneg',countneg))
+    f_list.append(Feature('mix',countmix))
     #for i in children
     return f_list
