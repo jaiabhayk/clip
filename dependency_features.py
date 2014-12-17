@@ -5,7 +5,7 @@ from senti_wordnet_features import *
 from nltk.stem.porter import *
 from nltk.stem.wordnet import WordNetLemmatizer
 import string
-
+import lexicon_features
 stemmer = PorterStemmer()
 lemmatizer = WordNetLemmatizer()
 
@@ -124,15 +124,19 @@ def dependency_pathdfs(tweet_depparse):
     for token in tweet_depparse:
         if token[0] not in children_dict.keys():
             leaf_list.append(token[0])
-    print leaf_list
-    print children_dict
+    #print leaf_list
+    #print children_dict
     
     #for leaf in leaf_list: 
        #print leaf
        #print tweet_depparse[int(leaf)-1][6]
-    
+    countpos=0
+    countneg=0
+    countmix=0
     for leaf in leaf_list:
         path=[]
+        allpos=0
+        allneg=0
         
         path.append(tweet_depparse[int(leaf)-1][1])
         parent=int(leaf)
@@ -142,11 +146,26 @@ def dependency_pathdfs(tweet_depparse):
             #print tweet_depparse[parent-1][6]
             parent=int(tweet_depparse[parent-1][6])
             path.append(tweet_depparse[parent-1][1])
+        for item in path:
+            token_word = item.lower()
+            token_lemma = lemmatizer.lemmatize(item.lower().decode('utf-8')).encode('utf-8')
+            token_stem = stemmer.stem(item.lower().decode('utf-8')).encode('utf-8')
+            if token_word not in lexicon_features.nrc_dict: item=token_lemma
+            if item not in lexicon_features.nrc_dict: item=token_stem
+            if item not in lexicon_features.nrc_dict: continue
+            if lexicon_features.nrc_dict[item]['positive']==1: allpos+=1
+            if lexicon_features.nrc_dict[item]['negative']==1: allneg+=1
+        if allpos>0 and allneg==0: countpos+=1
+        if allpos==0 and allneg>0: countneg+=1
+        if allpos>0 and allneg>0: countmix+=1
+            
         feature_name ='-'.join(path)
         feature_name = string.replace(feature_name,':','<Colon>')
         feature_name = string.replace(feature_name,'|','<VertBar>')
         f_list.append(Feature(feature_name,1))
-        print '-'.join(path)
-    
+        #print '-'.join(path)
+    f_list.append(Feature('allpos',countpos))
+    f_list.append(Feature('allneg',countneg))
+    f_list.append(Feature('mix',countmix))
     #for i in children
     return f_list
