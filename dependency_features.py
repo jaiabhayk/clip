@@ -16,7 +16,7 @@ def root_count(tweet_depparse):
     f_list=[]
     poscount=0
     negcount=0
-    #print lemmatizer.lemmatize("complaining".decode('utf-8')).encode('utf-8')
+
     for each_token in tweet_depparse:
         if each_token[6] == '0':
             pos = each_token[3].lower()
@@ -37,9 +37,7 @@ def root_count(tweet_depparse):
                 continue
                 
             score = senti_word_dict[key]
-            #senti=senti_word_dict[each_token[1]+"#"+each_token[3]]
-            #print score
-            #f_list.append(Feature(each_token[1].lower().join("_head"),score))
+            
             if score>0.1:
                 poscount+=1
                 feature_name=each_token[1].join("_head")
@@ -124,12 +122,6 @@ def dependency_pathdfs(tweet_depparse):
     for token in tweet_depparse:
         if token[0] not in children_dict.keys():
             leaf_list.append(token[0])
-    #print leaf_list
-    #print children_dict
-    
-    #for leaf in leaf_list: 
-       #print leaf
-       #print tweet_depparse[int(leaf)-1][6]
     countpos=0
     countneg=0
     countmix=0
@@ -158,14 +150,13 @@ def dependency_pathdfs(tweet_depparse):
         if allpos>0 and allneg==0: countpos+=1
         if allpos==0 and allneg>0: countneg+=1
         if allpos>0 and allneg>0: countmix+=1
-            
         feature_name ='-'.join(path)
         feature_name = string.replace(feature_name,':','<Colon>')
         feature_name = string.replace(feature_name,'|','<VertBar>')
-        f_list.append(Feature(feature_name,1))
+        #f_list.append(Feature(feature_name,1))
         #print '-'.join(path)
     f_list.append(Feature('allpos',countpos))
     f_list.append(Feature('allneg',countneg))
     f_list.append(Feature('mix',countmix))
-    #for i in children
+    
     return f_list
