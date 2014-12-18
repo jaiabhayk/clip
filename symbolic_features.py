@@ -8,9 +8,6 @@ def smiley_count(tweet_content):
     smiley_kidding = [':P', ':-P']
     smiley_wink = [';)',';-)']
     smiley_surprize = [':O',':-O']
-    #smiley_laugh = [':D', ':-D',":'D",":'-D"]
-    #smiley_cry = [":'(",":'-(", ":*(", ":*-(",":{",":["]
-    #smiley_smilecry = [":')",":'-)"]
     smiley_heart = ["<3"]
     smiley_kiss = [":*",":X",":-*",":-X"]
     smiley_indifference = [":|",":-|", "-_-"]
@@ -30,12 +27,6 @@ def smiley_count(tweet_content):
             smiley_dict["smiley_wink"]+=1
         if each_token.upper() in smiley_surprize:
             smiley_dict["smiley_surprize"]+=1
-        #if each_token.upper() in smiley_laugh:
-        #    smiley_dict["smiley_laugh"]+=1
-        #if each_token.upper() in smiley_cry:
-        #    smiley_dict["smiley_cry"]+=1
-        #if each_token.upper() in smiley_smilecry:
-        #    smiley_dict["smiley_smilecry"]+=1
         if each_token.upper() in smiley_heart:
             smiley_dict["smiley_heart"]+=1
         if each_token.upper() in smiley_kiss:
