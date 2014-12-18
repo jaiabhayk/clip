@@ -171,8 +171,8 @@ def getNameScorePair(word,pos):
 
 def combine_features(tweet):
     f_list = []
-    f_list += bigram_feature_with_polarity(tweet)
-    #f_list += bigram_feature_with_polarity_using_emotions(tweet)
+    #f_list += bigram_feature_with_polarity(tweet)
+    f_list += bigram_feature_with_polarity_using_emotions(tweet)
     
     return f_list
 
