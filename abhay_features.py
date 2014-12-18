@@ -8,4 +8,5 @@ def getAbhayFeatures(tweet):
     f_list += getHashTagFeatures(tweet.tokenized)
     f_list += getSentiScoreFeatures(tweet)
     f_list += depParseBigramFeatures.combine_features(tweet)
+    
     return f_list
