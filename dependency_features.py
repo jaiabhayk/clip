@@ -152,9 +152,6 @@ def dependency_pathdfs(tweet_depparse):
         if allpos>0 and allneg==0: countpos+=1
         if allpos==0 and allneg>0: countneg+=1
         if allpos>0 and allneg>0: countmix+=1
-            score+=senti(token3[1].lower(),token3[3])
-
-            
         feature_name ='-'.join(path)
         feature_name = string.replace(feature_name,':','<Colon>')
         feature_name = string.replace(feature_name,'|','<VertBar>')
