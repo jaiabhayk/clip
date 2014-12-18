@@ -35,15 +35,6 @@ def punctuation_count(tweet_content):
                     prevcountq+=1
                 else: break
             if prevcountq>maxcountq: maxcountq = prevcountq
-    '''
-        for char_token in each_token:
-            if char_token=='?':
-                prevcountq+=1
-            elif char_token=='!':
-                prevcountq+=1
-            else: pass
-        if prevcountq>maxcountq: maxcountq = prevcountq
-    '''    
     f_list.append(Feature("!count",maxcounte/len(tweet_content)))
     f_list.append(Feature("?count",maxcountq/len(tweet_content)))
     return f_list
