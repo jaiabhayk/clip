@@ -17,17 +17,12 @@ lemmatizer = WordNetLemmatizer()
 senti_word_dict = senti_wordnet_features.populate_senti_word_dict('senti_wordnet_dictionary.txt')
 tags=['n','v','a','r']
 
-debug = False
-
-
 def bigram_feature_with_polarity(tweet):
     f_list = []
     words, parents = unpack_dep_parse(tweet.dep_parse)
-    #if debug: print words, '\n', parents, '\n','pos=', tweet.posTags.name
     feature_prefix = 'dep_bigram_with_polarity_'
     hist = Counter()
     for i in range(len(words)):
-        #TODO why we need to put parents[i]>len(words), need to verify
         if (parents[i] ==-1):
             continue
         else:
@@ -47,32 +42,22 @@ def bigram_feature_with_polarity(tweet):
             
             child,child_score = getNameScorePair(child,pos)
             parent,parent_score = getNameScorePair(parent,parentPos)
-#             if debug: print 'child-', child, ' score-', child_score
-#             if debug: print 'parent-', parent, ' score-', parent_score
             if child_score ==0 or parent_score ==0:
                 continue
-            #TODO should I remove the #postag from the word names ?
             feature_name = ''.join([feature_prefix, child, '_', parent])
             feature_name = string.replace(feature_name,':','<Colon>')
             feature_name = string.replace(feature_name,'|','<VertBar>')
             hist[feature_name] += child_score*parent_score
             
     for tag in hist: f_list.append(Feature(tag, hist[tag]))
-    
-    if debug:    
-        print '\n The Dep Parse Bigram Polarity Fearures list:-\n'
-        for f in f_list: print f, '\t'
-        print '\n===================-\n'  
     return f_list
 
 def bigram_feature_with_polarity_using_emotions(tweet):
     f_list = []
     words, parents = unpack_dep_parse(tweet.dep_parse)
-    #if debug: print words, '\n', parents, '\n','pos=', tweet.posTags.name
     feature_prefix = 'dep_bigram_with_polarity_using_emotions_'
     hist = Counter()
     for i in range(len(words)):
-        #TODO why we need to put parents[i]>len(words), need to verify
         if (parents[i] ==-1):
             continue
         else:
@@ -92,22 +77,14 @@ def bigram_feature_with_polarity_using_emotions(tweet):
             
             child,child_score = getPolarityUsingEmoticon(child)
             parent,parent_score = getPolarityUsingEmoticon(parent)
-#             if debug: print 'child-', child, ' score-', child_score
-#             if debug: print 'parent-', parent, ' score-', parent_score
             if child_score ==0 or parent_score ==0:
                 continue
-            #TODO should I remove the #postag from the word names ?
             feature_name = ''.join([feature_prefix, child, '_', parent])
             feature_name = string.replace(feature_name,':','<Colon>')
             feature_name = string.replace(feature_name,'|','<VertBar>')
             hist[feature_name] += child_score*parent_score
             
     for tag in hist: f_list.append(Feature(tag, hist[tag]))
-    
-    if debug:    
-        print '\n The Dep Parse Bigram Polarity Fearures using Emoticon list:-\n'
-        for f in f_list: print f, '\t'
-        print '\n===================-\n'  
     return f_list
 
 def getPolarityUsingEmoticon(word):
@@ -124,7 +101,6 @@ def getPolarityUsingEmoticon(word):
               key=i
               break
          else: continue
-#      if debug:print'key:-', key
 
      if key not in lexicon_features.nrc_dict:
          score = 0
